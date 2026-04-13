@@ -138,26 +138,27 @@ function BlogHero({ data, t }) {
       <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-40 w-full">
         {/* Overline */}
         <div className="flex items-center gap-3 mb-6 animate-fadein">
-          <div className="w-8 h-px bg-[#C8102E]" />
-          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#C8102E]">
+          <div className="w-8 h-px bg-[#1D6FD8]" />
+          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">
             {t.hero.badge}
           </span>
         </div>
 
         {/* Headline */}
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-black leading-[0.92] tracking-tighter max-w-2xl mb-6 animate-fadein-up">
-          {t.hero.headline.split(",").map((chunk, i, arr) =>
-            i === arr.length - 1 ? (
-              <span key={i} className="text-[#C8102E]">
-                {chunk}
-              </span>
-            ) : (
-              <span key={i}>
-                {chunk},<br />
-              </span>
-            )
-          )}
-        </h1>
+<h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter max-w-2xl mb-5 animate-fadein-up">
+  {(() => {
+    const words = t.hero.headline.split(" ");
+    const black = words.slice(0, 2).join(" ");
+    const blue  = words.slice(2).join(" ");
+    return (
+      <>
+        <span className="text-[#0a0a0a]">{black}</span>
+        <br />
+        <span className="text-[#1D6FD8]">{blue}</span>
+      </>
+    );
+  })()}
+</h1>
 
         {/* Subheadline */}
         <p className="text-gray-500 text-lg max-w-xl leading-relaxed animate-fadein-up2">
@@ -182,7 +183,7 @@ function CategoryFilter({ data, t, active, setActive }) {
               onClick={() => setActive(cat.id)}
               className={`shrink-0 px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 ${
                 active === cat.id
-                  ? "bg-[#C8102E] text-white shadow-md shadow-red-900/20"
+                  ? "bg-[#1D6FD8] text-white shadow-md shadow-red-900/20"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
@@ -209,7 +210,7 @@ function FeaturedPost({ post, t, lang }) {
 
         <Link
           href={`/blog/${post.slug}`}
-          className={`group grid lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden border border-gray-100 hover:border-[#C8102E]/30 hover:shadow-2xl hover:shadow-red-900/5 transition-all duration-500 ${
+          className={`group grid lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden border border-gray-100 hover:border-[#1D6FD8]/30 hover:shadow-2xl hover:shadow-red-900/5 transition-all duration-500 ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -250,7 +251,7 @@ function FeaturedPost({ post, t, lang }) {
               </span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight leading-tight mb-5 group-hover:text-[#C8102E] transition-colors duration-200">
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight leading-tight mb-5 group-hover:text-[#1D6FD8] transition-colors duration-200">
               {postT.title}
             </h2>
 
@@ -258,7 +259,7 @@ function FeaturedPost({ post, t, lang }) {
               {postT.excerpt}
             </p>
 
-            <div className="flex items-center gap-2 text-sm font-bold text-[#C8102E]">
+            <div className="flex items-center gap-2 text-sm font-bold text-[#1D6FD8]">
               {t.readMore}
               <ArrowRight size={14} />
             </div>
@@ -303,7 +304,7 @@ function PostCard({ post, t, lang, visible, delay }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className={`group flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-[#C8102E]/30 hover:shadow-xl hover:shadow-red-900/5 transition-all duration-300 ${
+      className={`group flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-[#1D6FD8]/30 hover:shadow-xl hover:shadow-red-900/5 transition-all duration-300 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
       style={{ transitionDelay: `${delay}ms` }}
@@ -347,7 +348,7 @@ function PostCard({ post, t, lang, visible, delay }) {
         </div>
 
         {/* Title */}
-        <h3 className="font-black text-[#0a0a0a] text-base leading-snug group-hover:text-[#C8102E] transition-colors duration-150">
+        <h3 className="font-black text-[#0a0a0a] text-base leading-snug group-hover:text-[#1D6FD8] transition-colors duration-150">
           {postT.title}
         </h3>
 
@@ -357,7 +358,7 @@ function PostCard({ post, t, lang, visible, delay }) {
         </p>
 
         {/* Read more */}
-        <div className="flex items-center gap-1 text-xs font-bold text-[#C8102E] mt-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200">
+        <div className="flex items-center gap-1 text-xs font-bold text-[#1D6FD8] mt-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200">
           {t.readMore} <ArrowRight size={12} />
         </div>
       </div>
@@ -394,7 +395,7 @@ function Newsletter({ data, t }) {
         />
       </div>
       {/* Red top border */}
-      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#C8102E] z-10" />
+      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#1D6FD8] z-10" />
 
       <div
         className={`relative z-10 max-w-2xl mx-auto text-center transition-all duration-700 ${
@@ -411,8 +412,8 @@ function Newsletter({ data, t }) {
         </p>
 
         {submitted ? (
-          <div className="flex items-center justify-center gap-3 text-[#C8102E] font-bold text-lg">
-            <Check size={20} color="#C8102E" />
+          <div className="flex items-center justify-center gap-3 text-[#1D6FD8] font-bold text-lg">
+            <Check size={20} color="#1D6FD8" />
             <span>Thank you!</span>
           </div>
         ) : (
@@ -426,11 +427,11 @@ function Newsletter({ data, t }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t.newsletter.placeholder}
-              className="flex-1 bg-white/8 border border-white/10 text-white placeholder-gray-500 px-5 py-4 rounded-lg text-sm focus:outline-none focus:border-[#C8102E] transition-colors"
+              className="flex-1 bg-white/8 border border-white/10 text-white placeholder-gray-500 px-5 py-4 rounded-lg text-sm focus:outline-none focus:border-[#1D6FD8] transition-colors"
             />
             <button
               type="submit"
-              className="bg-[#C8102E] text-white font-bold px-8 py-4 rounded-lg text-sm hover:bg-[#a50d24] transition-colors shadow-lg shadow-red-900/30 shrink-0"
+              className="bg-[#1D6FD8] text-white font-bold px-8 py-4 rounded-lg text-sm hover:bg-[#a50d24] transition-colors shadow-lg shadow-red-900/30 shrink-0"
             >
               {t.newsletter.cta}
             </button>
@@ -451,15 +452,15 @@ function Label({ text, visible, dark = false, centered = false }) {
         centered ? "justify-center" : ""
       } ${visible ? "opacity-100" : "opacity-0"}`}
     >
-      <div className="w-5 h-px bg-[#C8102E]" />
+      <div className="w-5 h-px bg-[#1D6FD8]" />
       <span
         className={`text-xs font-bold tracking-[0.2em] uppercase ${
-          dark ? "text-gray-400" : "text-[#C8102E]"
+          dark ? "text-gray-400" : "text-[#1D6FD8]"
         }`}
       >
         {text}
       </span>
-      {centered && <div className="w-5 h-px bg-[#C8102E]" />}
+      {centered && <div className="w-5 h-px bg-[#1D6FD8]" />}
     </div>
   );
 }

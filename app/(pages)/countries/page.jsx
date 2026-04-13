@@ -53,7 +53,7 @@ function ArrowRight({ size = 14 }) {
     </svg>
   );
 }
-function Check({ size = 11, color = "#C8102E" }) {
+function Check({ size = 11, color = "#1D6FD8" }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
       stroke={color} strokeWidth={2.8} strokeLinecap="round" strokeLinejoin="round">
@@ -120,7 +120,7 @@ function Sun({ size = 15 }) {
    SECTION CONFIG — maps section keys to icons & colors
 ───────────────────────────────────────── */
 const SECTION_META = {
-  educationSystem:      { icon: BookOpen,      color: "#C8102E" },
+  educationSystem:      { icon: BookOpen,      color: "#1D6FD8" },
   admissionRequirements:{ icon: ClipboardList, color: "#a855f7" },
   costOfLiving:         { icon: Wallet,        color: "#10b981" },
   partTimeWork:         { icon: Briefcase,     color: "#f59e0b" },
@@ -133,7 +133,7 @@ const SECTION_KEYS = Object.keys(SECTION_META);
 /* ─────────────────────────────────────────
    SHARED — Section Label
 ───────────────────────────────────────── */
-function Label({ text, visible, color = "#C8102E", dark = false }) {
+function Label({ text, visible, color = "#1D6FD8", dark = false }) {
   return (
     <div className={`flex items-center gap-2 mb-3 transition-all duration-500 ${visible ? "opacity-100" : "opacity-0"}`}>
       <div className="w-5 h-px" style={{ background: color }} />
@@ -218,18 +218,25 @@ function HeroSection({ data, t }) {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-36 w-full">
         <div className="flex items-center gap-3 mb-5 animate-fadein">
-          <div className="w-8 h-px bg-[#C8102E]" />
-          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#C8102E]">
+          <div className="w-8 h-px bg-[#1D6FD8]" />
+          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">
             {t.hero.badge}
           </span>
         </div>
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-black leading-[0.92] tracking-tighter max-w-2xl mb-5 animate-fadein-up">
-          {t.hero.headline.split(",").map((chunk, i, arr) =>
-            i === arr.length - 1
-              ? <span key={i} className="text-[#C8102E]">{chunk}</span>
-              : <span key={i}>{chunk},<br /></span>
-          )}
-        </h1>
+<h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter max-w-2xl mb-5 animate-fadein-up">
+  {(() => {
+    const words = t.hero.headline.split(" ");
+    const black = words.slice(0, 2).join(" ");
+    const blue  = words.slice(2).join(" ");
+    return (
+      <>
+        <span className="text-[#0a0a0a]">{black}</span>
+        <br />
+        <span className="text-[#1D6FD8]">{blue}</span>
+      </>
+    );
+  })()}
+</h1>
         <p className="text-gray-500 text-lg max-w-lg leading-relaxed animate-fadein-up2">
           {t.hero.subheadline}
         </p>
@@ -483,7 +490,7 @@ function StatsStrip({ data, t }) {
       <div className="absolute inset-0 z-0 opacity-10">
         <Image src={data.stats.backgroundImage} alt="" fill className="object-cover" unoptimized />
       </div>
-      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#C8102E] z-10" />
+      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#1D6FD8] z-10" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className={`mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
@@ -506,7 +513,7 @@ function StatsStrip({ data, t }) {
               <span className="text-gray-400 text-xs font-semibold uppercase tracking-widest mt-2">
                 {t.stats.items[i]}
               </span>
-              <div className="w-6 h-0.5 bg-[#C8102E] mt-2" />
+              <div className="w-6 h-0.5 bg-[#1D6FD8] mt-2" />
             </div>
           ))}
         </div>

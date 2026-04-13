@@ -93,7 +93,7 @@ export default function BlogPostPage({ params }) {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-black mb-4">Post not found</h1>
-          <Link href="/blog" className="text-[#C8102E] font-bold underline">
+          <Link href="/blog" className="text-[#1D6FD8] font-bold underline">
             {t.backToBlog}
           </Link>
         </div>
@@ -201,7 +201,7 @@ function PostHero({ postMeta, postContent, t, lang }) {
         {/* Meta row */}
         <div className="flex flex-wrap items-center gap-4 animate-fadein-up2">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-[#C8102E] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-full bg-[#1D6FD8] flex items-center justify-center">
               <span className="text-white text-xs font-black">E</span>
             </div>
             <span className="text-gray-400 text-sm font-semibold">
@@ -242,7 +242,7 @@ function Section({ section, postColor, onVisible }) {
     case "intro":
       return (
         <div ref={ref} className={`mb-10 ${baseAnim}`}>
-          <p className="text-xl text-gray-600 leading-relaxed font-medium border-s-4 border-[#C8102E] ps-6">
+          <p className="text-xl text-gray-600 leading-relaxed font-medium border-s-4 border-[#1D6FD8] ps-6">
             {section.text}
           </p>
         </div>
@@ -373,7 +373,7 @@ function TOC({ toc, t, activeSection }) {
   return (
     <div className="rounded-2xl border border-gray-100 overflow-hidden">
       <div className="bg-[#0a0a0a] px-5 py-4 flex items-center gap-2">
-        <div className="w-1 h-4 bg-[#C8102E] rounded-full" />
+        <div className="w-1 h-4 bg-[#1D6FD8] rounded-full" />
         <span className="text-white text-xs font-bold uppercase tracking-widest">
           {t.tableOfContents}
         </span>
@@ -385,13 +385,13 @@ function TOC({ toc, t, activeSection }) {
             href={`#section-${item.number}`}
             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group ${
               activeSection === item.number
-                ? "bg-[#C8102E]/8 text-[#C8102E]"
+                ? "bg-[#1D6FD8]/8 text-[#1D6FD8]"
                 : "text-gray-600 hover:bg-gray-50 hover:text-[#0a0a0a]"
             }`}
           >
             <span
               className={`shrink-0 text-[10px] font-black ${
-                activeSection === item.number ? "text-[#C8102E]" : "text-gray-400"
+                activeSection === item.number ? "text-[#1D6FD8]" : "text-gray-400"
               }`}
             >
               {item.number}
@@ -409,7 +409,7 @@ function TOC({ toc, t, activeSection }) {
 ═══════════════════════════════════════ */
 function CTACard() {
   return (
-    <div className="rounded-2xl bg-[#C8102E] p-6 text-white">
+    <div className="rounded-2xl bg-[#1D6FD8] p-6 text-white">
       <div className="w-8 h-[3px] bg-white/40 mb-4" />
       <h3 className="font-black text-lg leading-tight mb-2">
         Need Help with Your Application?
@@ -419,7 +419,7 @@ function CTACard() {
       </p>
       <Link
         href="/consultation"
-        className="flex items-center justify-center gap-2 bg-white text-[#C8102E] font-bold text-sm py-3 px-5 rounded-lg hover:bg-red-50 transition-colors"
+        className="flex items-center justify-center gap-2 bg-white text-[#1D6FD8] font-bold text-sm py-3 px-5 rounded-lg hover:bg-red-50 transition-colors"
       >
         Book Free Consultation
         <ArrowRight size={14} />
@@ -443,8 +443,8 @@ function RelatedPosts({ posts, t, lang, data }) {
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <div className="w-5 h-px bg-[#C8102E]" />
-          <span className="text-xs font-bold tracking-[0.2em] uppercase text-[#C8102E]">
+          <div className="w-5 h-px bg-[#1D6FD8]" />
+          <span className="text-xs font-bold tracking-[0.2em] uppercase text-[#1D6FD8]">
             {t.relatedPosts}
           </span>
         </div>
@@ -457,7 +457,7 @@ function RelatedPosts({ posts, t, lang, data }) {
               <Link
                 key={post.id}
                 href={`/blog/${post.id}`}
-                className={`group flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-[#C8102E]/30 hover:shadow-xl hover:shadow-red-900/5 transition-all duration-300 ${
+                className={`group flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-[#1D6FD8]/30 hover:shadow-xl hover:shadow-red-900/5 transition-all duration-300 ${
                   visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
                 style={{ transitionDelay: `${i * 80}ms` }}
@@ -485,10 +485,10 @@ function RelatedPosts({ posts, t, lang, data }) {
                       {post.readTime} {t.readTime}
                     </span>
                   </div>
-                  <h3 className="font-black text-[#0a0a0a] text-sm leading-snug group-hover:text-[#C8102E] transition-colors">
+                  <h3 className="font-black text-[#0a0a0a] text-sm leading-snug group-hover:text-[#1D6FD8] transition-colors">
                     {postT.title}
                   </h3>
-                  <div className="flex items-center gap-1 text-xs font-bold text-[#C8102E] mt-auto pt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-1 text-xs font-bold text-[#1D6FD8] mt-auto pt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     {t.readMore} <ArrowRight size={11} />
                   </div>
                 </div>

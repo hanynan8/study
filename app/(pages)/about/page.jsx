@@ -45,7 +45,7 @@ function useReveal(threshold = 0.1) {
 function Check({ size = 12 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke="#C8102E" strokeWidth={2.8} strokeLinecap="round" strokeLinejoin="round">
+      stroke="#1D6FD8" strokeWidth={2.8} strokeLinecap="round" strokeLinejoin="round">
       <path d="M20 6L9 17l-5-5" />
     </svg>
   );
@@ -73,8 +73,8 @@ function Eye({ size = 22 }) {
 function Label({ text, visible, dark = false }) {
   return (
     <div className={`flex items-center gap-2 mb-3 transition-all duration-500 ${visible ? "opacity-100" : "opacity-0"}`}>
-      <div className="w-5 h-px bg-[#C8102E]" />
-      <span className={`text-xs font-bold tracking-[0.2em] uppercase ${dark ? "text-gray-400" : "text-[#C8102E]"}`}>
+      <div className="w-5 h-px bg-[#1D6FD8]" />
+      <span className={`text-xs font-bold tracking-[0.2em] uppercase ${dark ? "text-gray-400" : "text-[#1D6FD8]"}`}>
         {text}
       </span>
     </div>
@@ -132,16 +132,23 @@ function HeroSection({ data, t }) {
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-36 w-full">
         <div className="flex items-center gap-3 mb-5 animate-fadein">
-          <div className="w-8 h-px bg-[#C8102E]" />
-          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#C8102E]">{t.hero.badge}</span>
+          <div className="w-8 h-px bg-[#1D6FD8]" />
+          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">{t.hero.badge}</span>
         </div>
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-black leading-[0.92] tracking-tighter max-w-2xl mb-5 animate-fadein-up">
-          {t.hero.headline.split(" ").map((word, i, arr) =>
-            i === arr.length - 1
-              ? <span key={i} className="text-[#C8102E]"> {word}</span>
-              : <span key={i}>{word} </span>
-          )}
-        </h1>
+<h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter max-w-2xl mb-5 animate-fadein-up">
+  {(() => {
+    const words = t.hero.headline.split(" ");
+    const black = words.slice(0, 2).join(" ");
+    const blue  = words.slice(2).join(" ");
+    return (
+      <>
+        <span className="text-[#0a0a0a]">{black}</span>
+        <br />
+        <span className="text-[#1D6FD8]">{blue}</span>
+      </>
+    );
+  })()}
+</h1>
         <p className="text-gray-500 text-lg max-w-lg leading-relaxed animate-fadein-up2">{t.hero.subheadline}</p>
       </div>
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce">
@@ -162,7 +169,7 @@ function WhoWeAre({ data, t }) {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
         <div className={`relative overflow-hidden rounded-2xl aspect-[4/3] transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <Image src={data.whoWeAre.image} alt="Who We Are" fill className="object-cover" unoptimized />
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#C8102E]" />
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#1D6FD8]" />
           <div className="absolute top-6 left-6 bg-white rounded-xl px-4 py-3 shadow-lg">
             <p className="text-2xl font-black text-[#0a0a0a] leading-none">{data.whoWeAre.badge.value}</p>
             <p className="text-xs text-gray-500 font-medium mt-0.5">{t.whoWeAre.badgeLabel}</p>
@@ -190,7 +197,7 @@ function WhoWeAre({ data, t }) {
 function MissionVision({ data, t }) {
   const [ref, visible] = useReveal();
   const cards = [
-    { key: "mission", icon: <Target />, title: t.mission.title, body: t.mission.body, color: "#C8102E" },
+    { key: "mission", icon: <Target />, title: t.mission.title, body: t.mission.body, color: "#1D6FD8" },
     { key: "vision",  icon: <Eye />,    title: t.vision.title,  body: t.vision.body,  color: "#0a0a0a" },
   ];
   return (
@@ -242,7 +249,7 @@ function WhyChooseUs({ data, t }) {
                 className={`flex items-start gap-5 py-5 transition-all duration-500 ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"}`}
                 style={{ transitionDelay: `${150 + i * 80}ms` }}
               >
-                <span className="shrink-0 mt-0.5 w-7 h-7 rounded-full border-2 border-[#C8102E] flex items-center justify-center">
+                <span className="shrink-0 mt-0.5 w-7 h-7 rounded-full border-2 border-[#1D6FD8] flex items-center justify-center">
                   <Check size={12} />
                 </span>
                 <div>
@@ -259,7 +266,7 @@ function WhyChooseUs({ data, t }) {
           <div className="absolute bottom-6 left-6 right-6">
             <p className="text-white font-black text-xl leading-snug drop-shadow-md">{t.why.imageCaption}</p>
           </div>
-          <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#C8102E]" />
+          <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#1D6FD8]" />
         </div>
       </div>
     </section>
@@ -276,7 +283,7 @@ function StatsStrip({ data, t }) {
       <div className="absolute inset-0 z-0 opacity-10">
         <Image src={data.stats.backgroundImage} alt="" fill className="object-cover" unoptimized />
       </div>
-      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#C8102E] z-10" />
+      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#1D6FD8] z-10" />
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className={`mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <Label text={t.stats.label} visible={visible} dark />
@@ -290,7 +297,7 @@ function StatsStrip({ data, t }) {
             >
               <span className="text-5xl sm:text-6xl font-black text-white tracking-tighter leading-none">{s.value}</span>
               <span className="text-gray-400 text-xs font-semibold uppercase tracking-widest mt-2">{t.stats.items[i]}</span>
-              <div className="w-6 h-0.5 bg-[#C8102E] mt-2" />
+              <div className="w-6 h-0.5 bg-[#1D6FD8] mt-2" />
             </div>
           ))}
         </div>

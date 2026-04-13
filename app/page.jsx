@@ -83,7 +83,7 @@ export default function HomePage() {
 ═══════════════════════════════════════ */
 function Hero({ data, t }) {
   return (
-    <section className="relative min-h-screen flex items-end overflow-hidden bg-[#f4f4f4]">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#f4f4f4]">
       {/* Full-bleed background image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -100,25 +100,29 @@ function Hero({ data, t }) {
         <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-white to-transparent" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pb-28 pt-40 w-full">
+      <div className="relative z-10    px-16 pb-16 w-full">
         {/* Overline */}
         <div className="flex items-center gap-3 mb-6 animate-fadein">
-          <div className="w-8 h-px bg-[#C8102E]" />
-          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#C8102E]">
+          <div className="w-8 h-px bg-[#C9A227]" />
+          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#C9A227]">
             {t.hero.badge}
           </span>
         </div>
 
-        {/* Headline */}
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-black leading-[0.92] tracking-tighter max-w-3xl mb-8 animate-fadein-up">
-          {t.hero.headline.split(",").map((chunk, i, arr) =>
-            i === arr.length - 1 ? (
-              <span key={i} className="text-[#C8102E]">{chunk}</span>
-            ) : (
-              <span key={i}>{chunk},<br /></span>
-            )
-          )}
-        </h1>
+<h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[70px] font-black tracking-tighter max-w-3xl mb-8 animate-fadein-up">
+  {(() => {
+    const words = t.hero.headline.split(" ");
+    const black = words.slice(0, 2).join(" ");
+    const blue  = words.slice(2).join(" ");
+    return (
+      <>
+        <span className="text-[#0a0a0a]">{black}</span>
+        <br />
+        <span className="text-[#C9A227]">{blue}</span>
+      </>
+    );
+  })()}
+</h1>
 
         {/* Subheadline */}
         <p className="text-gray-500 text-lg max-w-lg mb-10 leading-relaxed animate-fadein-up2">
@@ -129,7 +133,7 @@ function Hero({ data, t }) {
         <div className="flex flex-wrap gap-4 animate-fadein-up2">
           <Link
             href={data.hero.ctaConsultationHref}
-            className="inline-flex items-center gap-2 bg-[#C8102E] text-white font-bold px-8 py-4 rounded-lg text-base hover:bg-[#a50d24] transition-colors shadow-lg shadow-red-900/20"
+            className="inline-flex items-center gap-2 bg-[#C9A227] text-white px-8 py-4 rounded-lg text-base hover:bg-[#977a1d] transition-colors shadow-lg shadow-amber-900/20"
           >
             {t.hero.ctaConsultation}
             <ArrowRight size={16} />
@@ -159,8 +163,8 @@ function Why({ data, t }) {
   const [ref, visible] = useReveal();
 
   return (
-    <section ref={ref} className="py-28 px-6 bg-white">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+<section ref={ref} className="py-28 bg-white">
+  <div className=" max-w-7xl mx-auto px-16 grid lg:grid-cols-2 gap-20 items-center">
 
         {/* Image */}
         <div
@@ -175,8 +179,8 @@ function Why({ data, t }) {
             className="object-cover"
             unoptimized
           />
-          {/* Red accent bottom bar */}
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#C8102E]" />
+          {/* blue accent bottom bar */}
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#C9A227]" />
         </div>
 
         {/* Content */}
@@ -199,8 +203,8 @@ function Why({ data, t }) {
                 }`}
                 style={{ transitionDelay: `${150 + i * 70}ms` }}
               >
-                <span className="shrink-0 w-7 h-7 rounded-full border-2 border-[#C8102E] flex items-center justify-center">
-                  <Check size={12} color="#C8102E" />
+                <span className="shrink-0 w-7 h-7 rounded-full border-2 border-[#C9A227] flex items-center justify-center">
+                  <Check size={12} color="#C9A227" />
                 </span>
                 <span className="text-gray-700 font-medium text-[15px] leading-snug">
                   {point}
@@ -226,8 +230,8 @@ function Services({ data, t }) {
   }));
 
   return (
-    <section ref={ref} className="py-28 px-6 bg-[#f7f7f7]">
-      <div className="max-w-7xl mx-auto">
+<section ref={ref} className="py-28 bg-[#f7f7f7]">
+  <div className="   px-16">
 
         {/* Header row */}
         <div
@@ -264,8 +268,8 @@ function Services({ data, t }) {
 function ServiceCard({ service, visible, delay }) {
   return (
     <Link
-      href={service.href}
-      className={`group flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-[#C8102E]/30 hover:shadow-xl hover:shadow-red-900/5 transition-all duration-300 ${
+      href={'/services/'}
+      className={`group flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-[#C9A227]/30 hover:shadow-xl hover:shadow-amber-900/5 transition-all duration-300 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
       style={{ transitionDelay: `${delay}ms` }}
@@ -288,13 +292,13 @@ function ServiceCard({ service, visible, delay }) {
 
       {/* Body */}
       <div className="p-6 flex flex-col gap-3 flex-1">
-        <h3 className="font-black text-[#0a0a0a] text-base leading-snug group-hover:text-[#C8102E] transition-colors duration-150">
+        <h3 className="font-black text-[#0a0a0a] text-base leading-snug group-hover:text-[#C9A227] transition-colors duration-150">
           {service.title}
         </h3>
         <p className="text-gray-500 text-sm leading-relaxed flex-1">
           {service.desc}
         </p>
-        <div className="flex items-center gap-1 text-xs font-bold text-[#C8102E] mt-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200">
+        <div className="flex items-center gap-1 text-xs font-bold text-[#C9A227] mt-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200">
           Learn more <ArrowRight size={12} />
         </div>
       </div>
@@ -314,8 +318,8 @@ function Stats({ data, t }) {
   }));
 
   return (
-    <section ref={ref} className="relative py-28 px-6 overflow-hidden bg-[#0a0a0a]">
-      {/* Background image very subtle */}
+    <section ref={ref} className="relative py-28 overflow-hidden bg-[#0a0a0a]">
+      {/* Background image */}
       <div className="absolute inset-0 z-0 opacity-15">
         <Image
           src={data.stats.backgroundImage}
@@ -325,10 +329,10 @@ function Stats({ data, t }) {
           unoptimized
         />
       </div>
-      {/* Red top border */}
-      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#C8102E] z-10" />
+      {/* blue top border */}
+      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#C9A227] z-10" />
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <div className="relative z-10    px-16">
         <div
           className={`mb-14 transition-all duration-700 ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -355,7 +359,7 @@ function Stats({ data, t }) {
               <span className="text-gray-400 text-xs font-semibold uppercase tracking-widest mt-2">
                 {s.label}
               </span>
-              <div className="w-6 h-0.5 bg-[#C8102E] mt-2" />
+              <div className="w-6 h-0.5 bg-[#C9A227] mt-2" />
             </div>
           ))}
         </div>
@@ -363,9 +367,8 @@ function Stats({ data, t }) {
     </section>
   );
 }
-
 /* ═══════════════════════════════════════
-   SHARED — Section Label
+   SHAblue — Section Label
 ═══════════════════════════════════════ */
 function Label({ text, visible, dark = false }) {
   return (
@@ -374,10 +377,10 @@ function Label({ text, visible, dark = false }) {
         visible ? "opacity-100" : "opacity-0"
       }`}
     >
-      <div className="w-5 h-px bg-[#C8102E]" />
+      <div className="w-5 h-px bg-[#C9A227]" />
       <span
         className={`text-xs font-bold tracking-[0.2em] uppercase ${
-          dark ? "text-gray-400" : "text-[#C8102E]"
+          dark ? "text-gray-400" : "text-[#C9A227]"
         }`}
       >
         {text}

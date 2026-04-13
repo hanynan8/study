@@ -88,8 +88,8 @@ function Star({ size = 13, filled = true }) {
 function Label({ text, visible, dark = false }) {
   return (
     <div className={`flex items-center gap-2 mb-3 transition-all duration-500 ${visible ? "opacity-100" : "opacity-0"}`}>
-      <div className="w-5 h-px bg-[#C8102E]" />
-      <span className={`text-xs font-bold tracking-[0.2em] uppercase ${dark ? "text-gray-400" : "text-[#C8102E]"}`}>
+      <div className="w-5 h-px bg-[#1D6FD8]" />
+      <span className={`text-xs font-bold tracking-[0.2em] uppercase ${dark ? "text-gray-400" : "text-[#1D6FD8]"}`}>
         {text}
       </span>
     </div>
@@ -129,7 +129,7 @@ export default function SuccessStoriesPage() {
         <Testimonials  data={data} t={t} />
         <Journeys      data={data} t={t} />
         <Approvals     data={data} t={t} />
-        <VideoReviews  data={data} t={t} />
+        {/* <VideoReviews  data={data} t={t} /> */}
         <CtaBanner     t={t} />
       </div>
     </>
@@ -151,16 +151,23 @@ function HeroSection({ data, t }) {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-36 w-full">
         <div className="flex items-center gap-3 mb-5 animate-fadein">
-          <div className="w-8 h-px bg-[#C8102E]" />
-          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#C8102E]">{t.hero.badge}</span>
+          <div className="w-8 h-px bg-[#1D6FD8]" />
+          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">{t.hero.badge}</span>
         </div>
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-black leading-[0.92] tracking-tighter max-w-2xl mb-5 animate-fadein-up">
-          {t.hero.headline.split(",").map((chunk, i, arr) =>
-            i === arr.length - 1
-              ? <span key={i} className="text-[#C8102E]">{chunk}</span>
-              : <span key={i}>{chunk},<br /></span>
-          )}
-        </h1>
+<h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter max-w-2xl mb-5 animate-fadein-up">
+  {(() => {
+    const words = t.hero.headline.split(" ");
+    const black = words.slice(0, 2).join(" ");
+    const blue  = words.slice(2).join(" ");
+    return (
+      <>
+        <span className="text-[#0a0a0a]">{black}</span>
+        <br />
+        <span className="text-[#1D6FD8]">{blue}</span>
+      </>
+    );
+  })()}
+</h1>
         <p className="text-gray-500 text-lg max-w-lg leading-relaxed animate-fadein-up2">{t.hero.subheadline}</p>
       </div>
     </section>
@@ -187,7 +194,7 @@ function StatsStrip({ data, t }) {
             <span className="text-gray-400 text-xs font-semibold uppercase tracking-widest mt-1">
               {t.stats.items[i]}
             </span>
-            <div className="w-5 h-0.5 bg-[#C8102E] mt-2" />
+            <div className="w-5 h-0.5 bg-[#1D6FD8] mt-2" />
           </div>
         ))}
       </div>
@@ -225,13 +232,13 @@ function Testimonials({ data, t }) {
           {merged.map((item, i) => (
             <div
               key={item.id}
-              className={`bg-[#f7f7f7] rounded-2xl p-7 flex flex-col gap-5 border border-gray-100 hover:border-[#C8102E]/20 hover:shadow-lg transition-all duration-300 ${
+              className={`bg-[#f7f7f7] rounded-2xl p-7 flex flex-col gap-5 border border-gray-100 hover:border-[#1D6FD8]/20 hover:shadow-lg transition-all duration-300 ${
                 visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${i * 70}ms` }}
             >
               {/* Quote icon */}
-              <div className="text-[#C8102E]/15">
+              <div className="text-[#1D6FD8]/15">
                 <Quote size={32} />
               </div>
 
@@ -246,7 +253,7 @@ function Testimonials({ data, t }) {
               {/* Tag */}
               <span
                 className="self-start text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full text-white"
-                style={{ background: TAG_COLORS[item.type] ?? "#C8102E" }}
+                style={{ background: TAG_COLORS[item.type] ?? "#1D6FD8" }}
               >
                 {item.tag}
               </span>
@@ -380,65 +387,65 @@ function Approvals({ data, t }) {
 /* ═══════════════════════════════════════
    VIDEO REVIEWS
 ═══════════════════════════════════════ */
-function VideoReviews({ data, t }) {
-  const [ref, visible] = useReveal();
-  const tv = t.videos;
-  const merged = data.videos.map((v) => ({ ...v, ...tv[v.id] }));
+// function VideoReviews({ data, t }) {
+//   const [ref, visible] = useReveal();
+//   const tv = t.videos;
+//   const merged = data.videos.map((v) => ({ ...v, ...tv[v.id] }));
 
-  return (
-    <section ref={ref} className="py-24 px-6 bg-[#f7f7f7]">
-      <div className="max-w-7xl mx-auto">
-        <div className={`mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <Label text={t.sections.videos} visible={visible} />
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight mb-3">{tv.title}</h2>
-          <p className="text-gray-500 max-w-xl text-[15px]">{tv.desc}</p>
-        </div>
+//   return (
+//     <section ref={ref} className="py-24 px-6 bg-[#f7f7f7]">
+//       <div className="max-w-7xl mx-auto">
+//         <div className={`mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+//           <Label text={t.sections.videos} visible={visible} />
+//           <h2 className="text-4xl sm:text-5xl font-black tracking-tight mb-3">{tv.title}</h2>
+//           <p className="text-gray-500 max-w-xl text-[15px]">{tv.desc}</p>
+//         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          {merged.map((v, i) => (
-            <div
-              key={v.id}
-              className={`group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:shadow-xl ${
-                visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${i * 80}ms` }}
-            >
-              {/* Thumbnail */}
-              <div className="relative aspect-[4/3]">
-                <Image src={v.thumbnail} alt={v.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" unoptimized />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
+//         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+//           {merged.map((v, i) => (
+//             <div
+//               key={v.id}
+//               className={`group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:shadow-xl ${
+//                 visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+//               }`}
+//               style={{ transitionDelay: `${i * 80}ms` }}
+//             >
+//               {/* Thumbnail */}
+//               <div className="relative aspect-[4/3]">
+//                 <Image src={v.thumbnail} alt={v.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" unoptimized />
+//                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
 
-                {/* Color top bar */}
-                <div className="absolute top-0 inset-x-0 h-[3px]" style={{ background: v.color }} />
+//                 {/* Color top bar */}
+//                 <div className="absolute top-0 inset-x-0 h-[3px]" style={{ background: v.color }} />
 
-                {/* Play button */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/60 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                    <Play size={20} />
-                  </div>
-                </div>
+//                 {/* Play button */}
+//                 <div className="absolute inset-0 flex items-center justify-center">
+//                   <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/60 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+//                     <Play size={20} />
+//                   </div>
+//                 </div>
 
-                {/* Duration badge */}
-                <span className="absolute bottom-3 right-3 text-[10px] font-bold text-white bg-black/50 backdrop-blur-sm px-2 py-1 rounded-md">
-                  {v.duration}
-                </span>
+//                 {/* Duration badge */}
+//                 <span className="absolute bottom-3 right-3 text-[10px] font-bold text-white bg-black/50 backdrop-blur-sm px-2 py-1 rounded-md">
+//                   {v.duration}
+//                 </span>
 
-                {/* Country */}
-                <span className="absolute top-3 left-3 text-xl">{v.country}</span>
-              </div>
+//                 {/* Country */}
+//                 <span className="absolute top-3 left-3 text-xl">{v.country}</span>
+//               </div>
 
-              {/* Info */}
-              <div className="bg-white px-5 py-4">
-                <p className="font-black text-sm text-[#0a0a0a]">{v.name}</p>
-                <p className="text-gray-400 text-xs mt-0.5">{v.program}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+//               {/* Info */}
+//               <div className="bg-white px-5 py-4">
+//                 <p className="font-black text-sm text-[#0a0a0a]">{v.name}</p>
+//                 <p className="text-gray-400 text-xs mt-0.5">{v.program}</p>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
 
 /* ═══════════════════════════════════════
    CTA BANNER
@@ -447,7 +454,7 @@ function CtaBanner({ t }) {
   const [ref, visible] = useReveal();
   return (
     <section ref={ref} className="relative py-28 px-6 overflow-hidden bg-[#0a0a0a]">
-      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#C8102E]" />
+      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#1D6FD8]" />
       <div className="relative z-10 max-w-3xl mx-auto text-center">
         <div className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-white leading-tight mb-4">
@@ -456,7 +463,7 @@ function CtaBanner({ t }) {
           <p className="text-gray-400 text-[15px] mb-10 leading-relaxed">{t.cta.desc}</p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 bg-[#C8102E] text-white font-bold px-8 py-4 rounded-lg text-base hover:bg-[#a50d24] transition-colors shadow-lg shadow-red-900/20"
+            className="inline-flex items-center gap-2 bg-[#1D6FD8] text-white font-bold px-8 py-4 rounded-lg text-base hover:bg-[#a50d24] transition-colors shadow-lg shadow-red-900/20"
           >
             {t.cta.button}
             <ArrowRight size={16} />

@@ -85,7 +85,7 @@ function Newsletter({ t }) {
     <div>
       <p className="text-gray-400 text-sm mb-3">{t.newsletterDesc}</p>
       {sent ? (
-        <p className="text-[#C8102E] text-sm font-bold">{t.newsletterSuccess}</p>
+        <p className="text-[#1D6FD8] text-sm font-bold">{t.newsletterSuccess}</p>
       ) : (
         <div className="flex gap-2">
           <input
@@ -93,11 +93,11 @@ function Newsletter({ t }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t.newsletterPlaceholder}
-            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#C8102E] transition-colors"
+            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#1D6FD8] transition-colors"
           />
           <button
             onClick={handleSubmit}
-            className="shrink-0 bg-[#C8102E] hover:bg-[#a50d24] active:scale-95 text-white px-4 py-2.5 rounded-lg transition-all"
+            className="shrink-0 bg-[#1D6FD8] hover:bg-[#a50d24] active:scale-95 text-white px-4 py-2.5 rounded-lg transition-all"
           >
             <ArrowRight size={14} />
           </button>
@@ -127,21 +127,21 @@ export default function Footer() {
         className="bg-[#0a0a0a] text-white"
         style={{ fontFamily: "'DM Sans', 'Tajawal', sans-serif" }}
       >
-        <div className="h-[3px] bg-[#C8102E]" />
+        <div className="h-[3px] bg-[#1D6FD8]" />
 
-        <div className="max-w-7xl mx-auto px-6 pt-16 pb-12">
+        <div className=" px-16 pt-16 pb-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
 
             {/* Brand + About + Socials */}
             <div className="lg:col-span-1">
               <Link href="/" className="inline-block text-2xl font-black tracking-tighter text-white mb-4 hover:opacity-80 transition-opacity">
-                {t.brand}<span className="text-[#C8102E]">.</span>
+                {t.brand}<span className="text-[#1D6FD8]">.</span>
               </Link>
               <p className="text-gray-400 text-sm leading-relaxed mb-6">{t.about}</p>
               <div className="flex flex-wrap gap-2">
                 {data.socials.map((s) => (
                   <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name}
-                    className="w-9 h-9 rounded-lg bg-white/5 hover:bg-[#C8102E] border border-white/8 hover:border-[#C8102E] flex items-center justify-center text-gray-400 hover:text-white transition-all duration-200">
+                    className="w-9 h-9 rounded-lg bg-white/5 hover:bg-[#1D6FD8] border border-white/8 hover:border-[#1D6FD8] flex items-center justify-center text-gray-400 hover:text-white transition-all duration-200">
                     <SocialIcon name={s.name} size={15} />
                   </a>
                 ))}
@@ -156,7 +156,7 @@ export default function Footer() {
                   <li key={link.id}>
                     <Link href={link.href}
                       className="flex items-center gap-2 text-sm text-gray-400 hover:text-white group transition-colors duration-150">
-                      <span className="w-0 group-hover:w-3 overflow-hidden transition-all duration-200 text-[#C8102E]">
+                      <span className="w-0 group-hover:w-3 overflow-hidden transition-all duration-200 text-[#1D6FD8]">
                         <ArrowRight size={11} />
                       </span>
                       {t.quickLinks[link.id]}
@@ -171,18 +171,18 @@ export default function Footer() {
               <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-5">{t.contactTitle}</h4>
               <ul className="flex flex-col gap-4">
                 <li className="flex items-start gap-3 text-sm text-gray-400">
-                  <span className="mt-0.5 shrink-0 text-[#C8102E]"><MapPin /></span>
+                  <span className="mt-0.5 shrink-0 text-[#1D6FD8]"><MapPin /></span>
                   <span className="leading-snug">{data.contact.address}</span>
                 </li>
                 <li>
                   <a href={`tel:${data.contact.phone}`} className="flex items-center gap-3 text-sm text-gray-400 hover:text-white transition-colors">
-                    <span className="shrink-0 text-[#C8102E]"><Phone /></span>
+                    <span className="shrink-0 text-[#1D6FD8]"><Phone /></span>
                     {data.contact.phone}
                   </a>
                 </li>
                 <li>
                   <a href={`mailto:${data.contact.email}`} className="flex items-center gap-3 text-sm text-gray-400 hover:text-white transition-colors">
-                    <span className="shrink-0 text-[#C8102E]"><Mail /></span>
+                    <span className="shrink-0 text-[#1D6FD8]"><Mail /></span>
                     {data.contact.email}
                   </a>
                 </li>
@@ -213,13 +213,6 @@ export default function Footer() {
           <p className="text-gray-600 text-xs tracking-wide">
             &copy; {year} {t.brand}. {t.rights}
           </p>
-          <div className="flex items-center gap-5">
-            {data.legalLinks.map((link) => (
-              <Link key={link.id} href={link.href} className="text-gray-600 hover:text-gray-300 text-xs transition-colors">
-                {t.legalLinks[link.id]}
-              </Link>
-            ))}
-          </div>
         </div>
       </footer>
     </>

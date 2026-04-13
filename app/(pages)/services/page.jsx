@@ -54,7 +54,7 @@ function ArrowRight({ size = 14 }) {
 function Check({ size = 11 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke="#C8102E" strokeWidth={2.8} strokeLinecap="round" strokeLinejoin="round">
+      stroke="#1D6FD8" strokeWidth={2.8} strokeLinecap="round" strokeLinejoin="round">
       <path d="M20 6L9 17l-5-5" />
     </svg>
   );
@@ -66,8 +66,8 @@ function Check({ size = 11 }) {
 function Label({ text, visible, dark = false }) {
   return (
     <div className={`flex items-center gap-2 mb-3 transition-all duration-500 ${visible ? "opacity-100" : "opacity-0"}`}>
-      <div className="w-5 h-px bg-[#C8102E]" />
-      <span className={`text-xs font-bold tracking-[0.2em] uppercase ${dark ? "text-gray-400" : "text-[#C8102E]"}`}>
+      <div className="w-5 h-px bg-[#1D6FD8]" />
+      <span className={`text-xs font-bold tracking-[0.2em] uppercase ${dark ? "text-gray-400" : "text-[#1D6FD8]"}`}>
         {text}
       </span>
     </div>
@@ -123,13 +123,13 @@ function HeroSection({ data, t }) {
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-36 w-full">
         <div className="flex items-center gap-3 mb-5 animate-fadein">
-          <div className="w-8 h-px bg-[#C8102E]" />
-          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#C8102E]">{t.hero.badge}</span>
+          <div className="w-8 h-px bg-[#1D6FD8]" />
+          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">{t.hero.badge}</span>
         </div>
         <h1 className="text-5xl sm:text-6xl md:text-7xl font-black leading-[0.92] tracking-tighter max-w-2xl mb-5 animate-fadein-up">
           {t.hero.headline.split(",").map((chunk, i, arr) =>
             i === arr.length - 1
-              ? <span key={i} className="text-[#C8102E]">{chunk}</span>
+              ? <span key={i} className="text-[#1D6FD8]">{chunk}</span>
               : <span key={i}>{chunk},<br /></span>
           )}
         </h1>
@@ -188,7 +188,7 @@ function ServiceRow({ service, index }) {
         <ul className="flex flex-col gap-3 mb-10">
           {service.features.map((f, i) => (
             <li key={i} className="flex items-center gap-3">
-              <span className="shrink-0 w-6 h-6 rounded-full border-2 border-[#C8102E] flex items-center justify-center"><Check size={11} /></span>
+              <span className="shrink-0 w-6 h-6 rounded-full border-2 border-[#1D6FD8] flex items-center justify-center"><Check size={11} /></span>
               <span className="text-[#0a0a0a] text-sm font-medium">{f}</span>
             </li>
           ))}
@@ -217,7 +217,7 @@ function StatsStrip({ data, t }) {
       <div className="absolute inset-0 z-0 opacity-10">
         <Image src={data.stats.backgroundImage} alt="" fill className="object-cover" unoptimized />
       </div>
-      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#C8102E] z-10" />
+      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#1D6FD8] z-10" />
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className={`mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <Label text={t.stats.label} visible={visible} dark />
@@ -231,7 +231,7 @@ function StatsStrip({ data, t }) {
             >
               <span className="text-5xl sm:text-6xl font-black text-white tracking-tighter leading-none">{s.value}</span>
               <span className="text-gray-400 text-xs font-semibold uppercase tracking-widest mt-2">{t.stats.items[i]}</span>
-              <div className="w-6 h-0.5 bg-[#C8102E] mt-2" />
+              <div className="w-6 h-0.5 bg-[#1D6FD8] mt-2" />
             </div>
           ))}
         </div>
