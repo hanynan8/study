@@ -4,26 +4,17 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-/* ─────────────────────────────────────────
-   FETCH HOOK
-───────────────────────────────────────── */
 function useAboutData() {
   const [data, setData] = useState(null);
   useEffect(() => {
     fetch("/api/data?collection=about")
       .then((r) => r.json())
-      .then((res) => {
-        const doc = Array.isArray(res) ? res[0] : res;
-        setData(doc);
-      })
+      .then((res) => { const doc = Array.isArray(res) ? res[0] : res; setData(doc); })
       .catch(console.error);
   }, []);
   return data;
 }
 
-/* ─────────────────────────────────────────
-   SCROLL REVEAL HOOK
-───────────────────────────────────────── */
 function useReveal(threshold = 0.1) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -39,9 +30,6 @@ function useReveal(threshold = 0.1) {
   return [ref, visible];
 }
 
-/* ─────────────────────────────────────────
-   ICONS
-───────────────────────────────────────── */
 function Check({ size = 12 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
@@ -67,23 +55,17 @@ function Eye({ size = 22 }) {
   );
 }
 
-/* ─────────────────────────────────────────
-   SHARED — Section Label
-───────────────────────────────────────── */
 function Label({ text, visible, dark = false }) {
   return (
     <div className={`flex items-center gap-2 mb-3 transition-all duration-500 ${visible ? "opacity-100" : "opacity-0"}`}>
-      <div className="w-5 h-px bg-[#1D6FD8]" />
-      <span className={`text-xs font-bold tracking-[0.2em] uppercase ${dark ? "text-gray-400" : "text-[#1D6FD8]"}`}>
+      <div className="w-4 sm:w-5 h-px bg-[#1D6FD8]" />
+      <span className={`text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase ${dark ? "text-gray-400" : "text-[#1D6FD8]"}`}>
         {text}
       </span>
     </div>
   );
 }
 
-/* ═══════════════════════════════════════
-   ROOT PAGE
-═══════════════════════════════════════ */
 export default function AboutPage() {
   const { language, isRTL } = useLanguage();
   const data = useAboutData();
@@ -119,39 +101,38 @@ export default function AboutPage() {
   );
 }
 
-/* ═══════════════════════════════════════
-   HERO
-═══════════════════════════════════════ */
 function HeroSection({ data, t }) {
   return (
-    <section className="relative min-h-[52vh] flex items-end overflow-hidden bg-[#f4f4f4]">
+    <section className="relative min-h-[52vh] flex items-center overflow-hidden bg-[#f4f4f4]">
       <div className="absolute inset-0 z-0">
         <Image src={data.hero.backgroundImage} alt="about hero" fill className="object-cover object-center" priority unoptimized />
         <div className="absolute inset-0 bg-gradient-to-r from-white via-white/88 to-transparent" />
         <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-white to-transparent" />
       </div>
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-36 w-full">
-        <div className="flex items-center gap-3 mb-5 animate-fadein">
-          <div className="w-8 h-px bg-[#1D6FD8]" />
-          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">{t.hero.badge}</span>
+      <div className="relative z-10 w-full px-5 pt-16 pb-12 sm:px-8 md:px-6 sm:pt-0 sm:pb-0 md:pt-0 md:pb-0">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-3 mb-4 sm:mb-5 animate-fadein">
+            <div className="w-6 sm:w-8 h-px bg-[#1D6FD8]" />
+            <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">{t.hero.badge}</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter max-w-2xl mb-4 sm:mb-5 animate-fadein-up leading-[1.05]">
+            {(() => {
+              const words = t.hero.headline.split(" ");
+              const black = words.slice(0, 2).join(" ");
+              const blue  = words.slice(2).join(" ");
+              return (
+                <>
+                  <span className="text-[#0a0a0a]">{black}</span>
+                  <br />
+                  <span className="text-[#1D6FD8]">{blue}</span>
+                </>
+              );
+            })()}
+          </h1>
+          <p className="text-gray-500 text-sm sm:text-lg max-w-lg leading-relaxed animate-fadein-up2">{t.hero.subheadline}</p>
         </div>
-<h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter max-w-2xl mb-5 animate-fadein-up">
-  {(() => {
-    const words = t.hero.headline.split(" ");
-    const black = words.slice(0, 2).join(" ");
-    const blue  = words.slice(2).join(" ");
-    return (
-      <>
-        <span className="text-[#0a0a0a]">{black}</span>
-        <br />
-        <span className="text-[#1D6FD8]">{blue}</span>
-      </>
-    );
-  })()}
-</h1>
-        <p className="text-gray-500 text-lg max-w-lg leading-relaxed animate-fadein-up2">{t.hero.subheadline}</p>
       </div>
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce">
+      <div className="hidden sm:flex absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex-col items-center gap-2 animate-bounce">
         <div className="w-px h-8 bg-gray-300" />
         <span className="text-[10px] tracking-[0.2em] uppercase text-gray-400 font-medium">Scroll</span>
       </div>
@@ -159,30 +140,27 @@ function HeroSection({ data, t }) {
   );
 }
 
-/* ═══════════════════════════════════════
-   WHO WE ARE
-═══════════════════════════════════════ */
 function WhoWeAre({ data, t }) {
   const [ref, visible] = useReveal();
   return (
-    <section ref={ref} className="py-28 px-6 bg-white">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+    <section ref={ref} className="py-16 sm:py-20 md:py-28 bg-white">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-6 grid lg:grid-cols-2 gap-10 md:gap-16 lg:gap-20 items-center">
         <div className={`relative overflow-hidden rounded-2xl aspect-[4/3] transition-all duration-700 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <Image src={data.whoWeAre.image} alt="Who We Are" fill className="object-cover" unoptimized />
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#1D6FD8]" />
-          <div className="absolute top-6 left-6 bg-white rounded-xl px-4 py-3 shadow-lg">
-            <p className="text-2xl font-black text-[#0a0a0a] leading-none">{data.whoWeAre.badge.value}</p>
+          <div className="absolute top-4 sm:top-6 left-4 sm:left-6 bg-white rounded-xl px-3 sm:px-4 py-2 sm:py-3 shadow-lg">
+            <p className="text-xl sm:text-2xl font-black text-[#0a0a0a] leading-none">{data.whoWeAre.badge.value}</p>
             <p className="text-xs text-gray-500 font-medium mt-0.5">{t.whoWeAre.badgeLabel}</p>
           </div>
         </div>
         <div>
           <Label text={t.whoWeAre.label} visible={visible} />
-          <h2 className={`text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-6 transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight mb-5 sm:mb-6 transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             {t.whoWeAre.title}
           </h2>
           <div className={`space-y-4 transition-all duration-700 delay-150 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             {t.whoWeAre.paragraphs.map((p, i) => (
-              <p key={i} className="text-gray-600 text-[15px] leading-relaxed">{p}</p>
+              <p key={i} className="text-gray-600 text-sm sm:text-[15px] leading-relaxed">{p}</p>
             ))}
           </div>
         </div>
@@ -191,9 +169,6 @@ function WhoWeAre({ data, t }) {
   );
 }
 
-/* ═══════════════════════════════════════
-   MISSION & VISION
-═══════════════════════════════════════ */
 function MissionVision({ data, t }) {
   const [ref, visible] = useReveal();
   const cards = [
@@ -201,25 +176,25 @@ function MissionVision({ data, t }) {
     { key: "vision",  icon: <Eye />,    title: t.vision.title,  body: t.vision.body,  color: "#0a0a0a" },
   ];
   return (
-    <section ref={ref} className="py-28 px-6 bg-[#f7f7f7]">
-      <div className="max-w-7xl mx-auto">
-        <div className={`mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+    <section ref={ref} className="py-16 sm:py-20 md:py-28 bg-[#f7f7f7]">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-6">
+        <div className={`mb-10 sm:mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <Label text={t.mvLabel} visible={visible} />
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight">{t.mvTitle}</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">{t.mvTitle}</h2>
         </div>
-        <div className="grid sm:grid-cols-2 gap-6">
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
           {cards.map((card, i) => (
             <div key={card.key}
-              className={`relative bg-white border border-gray-100 rounded-2xl p-10 overflow-hidden transition-all duration-500 hover:shadow-xl hover:shadow-black/5 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              className={`relative bg-white border border-gray-100 rounded-2xl p-6 sm:p-8 md:p-10 overflow-hidden transition-all duration-500 hover:shadow-xl hover:shadow-black/5 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               <div className="absolute top-0 inset-x-0 h-[3px]" style={{ background: card.color }} />
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style={{ background: `${card.color}12`, color: card.color }}>
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mb-5 sm:mb-6" style={{ background: `${card.color}12`, color: card.color }}>
                 {card.icon}
               </div>
-              <h3 className="text-2xl font-black tracking-tight mb-3" style={{ color: card.color }}>{card.title}</h3>
-              <p className="text-gray-600 text-[15px] leading-relaxed">{card.body}</p>
-              <div className="absolute -bottom-4 -right-2 text-[120px] font-black leading-none opacity-[0.04] select-none pointer-events-none" style={{ color: card.color }}>
+              <h3 className="text-xl sm:text-2xl font-black tracking-tight mb-3" style={{ color: card.color }}>{card.title}</h3>
+              <p className="text-gray-600 text-sm sm:text-[15px] leading-relaxed">{card.body}</p>
+              <div className="absolute -bottom-4 -right-2 text-[90px] sm:text-[120px] font-black leading-none opacity-[0.04] select-none pointer-events-none" style={{ color: card.color }}>
                 {card.title.charAt(0)}
               </div>
             </div>
@@ -230,31 +205,28 @@ function MissionVision({ data, t }) {
   );
 }
 
-/* ═══════════════════════════════════════
-   WHY CHOOSE US
-═══════════════════════════════════════ */
 function WhyChooseUs({ data, t }) {
   const [ref, visible] = useReveal();
   return (
-    <section ref={ref} className="py-28 px-6 bg-white">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+    <section ref={ref} className="py-16 sm:py-20 md:py-28 bg-white">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-6 grid lg:grid-cols-2 gap-10 md:gap-16 lg:gap-20 items-center">
         <div>
           <Label text={t.why.label} visible={visible} />
-          <h2 className={`text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-10 transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight mb-8 sm:mb-10 transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             {t.why.title}
           </h2>
           <ul className="flex flex-col divide-y divide-gray-100">
             {t.why.points.map((point, i) => (
               <li key={i}
-                className={`flex items-start gap-5 py-5 transition-all duration-500 ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"}`}
+                className={`flex items-start gap-4 py-4 sm:py-5 transition-all duration-500 ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"}`}
                 style={{ transitionDelay: `${150 + i * 80}ms` }}
               >
-                <span className="shrink-0 mt-0.5 w-7 h-7 rounded-full border-2 border-[#1D6FD8] flex items-center justify-center">
-                  <Check size={12} />
+                <span className="shrink-0 mt-0.5 w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-[#1D6FD8] flex items-center justify-center">
+                  <Check size={11} />
                 </span>
                 <div>
-                  <p className="text-[#0a0a0a] font-bold text-[15px] leading-snug">{point.title}</p>
-                  {point.desc && <p className="text-gray-500 text-sm mt-1 leading-relaxed">{point.desc}</p>}
+                  <p className="text-[#0a0a0a] font-bold text-sm sm:text-[15px] leading-snug">{point.title}</p>
+                  {point.desc && <p className="text-gray-500 text-xs sm:text-sm mt-1 leading-relaxed">{point.desc}</p>}
                 </div>
               </li>
             ))}
@@ -263,8 +235,8 @@ function WhyChooseUs({ data, t }) {
         <div className={`relative overflow-hidden rounded-2xl aspect-[4/3] transition-all duration-700 delay-200 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <Image src={data.why.image} alt="Why Choose Edumaster" fill className="object-cover" unoptimized />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-          <div className="absolute bottom-6 left-6 right-6">
-            <p className="text-white font-black text-xl leading-snug drop-shadow-md">{t.why.imageCaption}</p>
+          <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
+            <p className="text-white font-black text-base sm:text-xl leading-snug drop-shadow-md">{t.why.imageCaption}</p>
           </div>
           <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#1D6FD8]" />
         </div>
@@ -273,31 +245,28 @@ function WhyChooseUs({ data, t }) {
   );
 }
 
-/* ═══════════════════════════════════════
-   STATS STRIP
-═══════════════════════════════════════ */
 function StatsStrip({ data, t }) {
   const [ref, visible] = useReveal();
   return (
-    <section ref={ref} className="relative py-28 px-6 overflow-hidden bg-[#0a0a0a]">
+    <section ref={ref} className="relative py-16 sm:py-20 md:py-28 overflow-hidden bg-[#0a0a0a]">
       <div className="absolute inset-0 z-0 opacity-10">
         <Image src={data.stats.backgroundImage} alt="" fill className="object-cover" unoptimized />
       </div>
       <div className="absolute top-0 inset-x-0 h-[3px] bg-[#1D6FD8] z-10" />
-      <div className="relative z-10 max-w-7xl mx-auto">
-        <div className={`mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 md:px-6">
+        <div className={`mb-10 sm:mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
           <Label text={t.stats.label} visible={visible} dark />
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-white leading-tight">{t.stats.title}</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">{t.stats.title}</h2>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/8 rounded-2xl overflow-hidden border border-white/8">
           {data.stats.items.map((s, i) => (
             <div key={i}
-              className={`bg-[#111] p-10 flex flex-col gap-2 transition-all duration-500 ${visible ? "opacity-100" : "opacity-0"}`}
+              className={`bg-[#111] p-5 sm:p-7 md:p-10 flex flex-col gap-2 transition-all duration-500 ${visible ? "opacity-100" : "opacity-0"}`}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <span className="text-5xl sm:text-6xl font-black text-white tracking-tighter leading-none">{s.value}</span>
-              <span className="text-gray-400 text-xs font-semibold uppercase tracking-widest mt-2">{t.stats.items[i]}</span>
-              <div className="w-6 h-0.5 bg-[#1D6FD8] mt-2" />
+              <span className="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tighter leading-none">{s.value}</span>
+              <span className="text-gray-400 text-[10px] sm:text-xs font-semibold uppercase tracking-widest mt-1 sm:mt-2">{t.stats.items[i]}</span>
+              <div className="w-5 sm:w-6 h-0.5 bg-[#1D6FD8] mt-1 sm:mt-2" />
             </div>
           ))}
         </div>

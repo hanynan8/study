@@ -85,7 +85,7 @@ function Newsletter({ t }) {
     <div>
       <p className="text-gray-400 text-sm mb-3">{t.newsletterDesc}</p>
       {sent ? (
-        <p className="text-[#1D6FD8] text-sm font-bold">{t.newsletterSuccess}</p>
+        <p className="text-[#C9A227] text-sm font-bold">{t.newsletterSuccess}</p>
       ) : (
         <div className="flex gap-2">
           <input
@@ -93,11 +93,11 @@ function Newsletter({ t }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t.newsletterPlaceholder}
-            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#1D6FD8] transition-colors"
+            className="flex-1 min-w-0 bg-white/5 border border-white/10 rounded-lg px-3 sm:px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#C9A227] transition-colors"
           />
           <button
             onClick={handleSubmit}
-            className="shrink-0 bg-[#1D6FD8] hover:bg-[#a50d24] active:scale-95 text-white px-4 py-2.5 rounded-lg transition-all"
+            className="shrink-0 bg-[#C9A227] hover:bg-[#977a1d] active:scale-95 text-white px-3.5 py-2.5 rounded-lg transition-all"
           >
             <ArrowRight size={14} />
           </button>
@@ -127,21 +127,22 @@ export default function Footer() {
         className="bg-[#0a0a0a] text-white"
         style={{ fontFamily: "'DM Sans', 'Tajawal', sans-serif" }}
       >
-        <div className="h-[3px] bg-[#1D6FD8]" />
+        <div className="h-[3px] bg-[#C9A227]" />
 
-        <div className=" px-16 pt-16 pb-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+        {/* Main grid — 1 col mobile → 2 col tablet → 4 col desktop */}
+        <div className="px-5 sm:px-8 md:px-16 pt-12 sm:pt-14 md:pt-16 pb-10 sm:pb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-10 lg:gap-12">
 
             {/* Brand + About + Socials */}
-            <div className="lg:col-span-1">
+            <div className="sm:col-span-2 lg:col-span-1">
               <Link href="/" className="inline-block text-2xl font-black tracking-tighter text-white mb-4 hover:opacity-80 transition-opacity">
-                {t.brand}<span className="text-[#1D6FD8]">.</span>
+                {t.brand}<span className="text-[#C9A227]">.</span>
               </Link>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">{t.about}</p>
+              <p className="text-gray-400 text-sm leading-relaxed mb-5">{t.about}</p>
               <div className="flex flex-wrap gap-2">
                 {data.socials.map((s) => (
                   <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name}
-                    className="w-9 h-9 rounded-lg bg-white/5 hover:bg-[#1D6FD8] border border-white/8 hover:border-[#1D6FD8] flex items-center justify-center text-gray-400 hover:text-white transition-all duration-200">
+                    className="w-9 h-9 rounded-lg bg-white/5 hover:bg-[#C9A227] border border-white/8 hover:border-[#C9A227] flex items-center justify-center text-gray-400 hover:text-white transition-all duration-200">
                     <SocialIcon name={s.name} size={15} />
                   </a>
                 ))}
@@ -150,13 +151,13 @@ export default function Footer() {
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-5">{t.quickLinksTitle}</h4>
+              <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-4 sm:mb-5">{t.quickLinksTitle}</h4>
               <ul className="flex flex-col gap-2.5">
                 {data.quickLinks.map((link) => (
                   <li key={link.id}>
                     <Link href={link.href}
                       className="flex items-center gap-2 text-sm text-gray-400 hover:text-white group transition-colors duration-150">
-                      <span className="w-0 group-hover:w-3 overflow-hidden transition-all duration-200 text-[#1D6FD8]">
+                      <span className="w-0 group-hover:w-3 overflow-hidden transition-all duration-200 text-[#C9A227]">
                         <ArrowRight size={11} />
                       </span>
                       {t.quickLinks[link.id]}
@@ -168,21 +169,21 @@ export default function Footer() {
 
             {/* Contact */}
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-5">{t.contactTitle}</h4>
+              <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-4 sm:mb-5">{t.contactTitle}</h4>
               <ul className="flex flex-col gap-4">
                 <li className="flex items-start gap-3 text-sm text-gray-400">
-                  <span className="mt-0.5 shrink-0 text-[#1D6FD8]"><MapPin /></span>
+                  <span className="mt-0.5 shrink-0 text-[#C9A227]"><MapPin /></span>
                   <span className="leading-snug">{data.contact.address}</span>
                 </li>
                 <li>
                   <a href={`tel:${data.contact.phone}`} className="flex items-center gap-3 text-sm text-gray-400 hover:text-white transition-colors">
-                    <span className="shrink-0 text-[#1D6FD8]"><Phone /></span>
+                    <span className="shrink-0 text-[#C9A227]"><Phone /></span>
                     {data.contact.phone}
                   </a>
                 </li>
                 <li>
-                  <a href={`mailto:${data.contact.email}`} className="flex items-center gap-3 text-sm text-gray-400 hover:text-white transition-colors">
-                    <span className="shrink-0 text-[#1D6FD8]"><Mail /></span>
+                  <a href={`mailto:${data.contact.email}`} className="flex items-center gap-3 text-sm text-gray-400 hover:text-white transition-colors break-all">
+                    <span className="shrink-0 text-[#C9A227]"><Mail /></span>
                     {data.contact.email}
                   </a>
                 </li>
@@ -190,10 +191,10 @@ export default function Footer() {
             </div>
 
             {/* Newsletter + Languages */}
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-5">{t.newsletterTitle}</h4>
+            <div className="sm:col-span-2 lg:col-span-1">
+              <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-4 sm:mb-5">{t.newsletterTitle}</h4>
               <Newsletter t={t} />
-              <div className="mt-8">
+              <div className="mt-7 sm:mt-8">
                 <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-3">{t.langTitle}</h4>
                 <div className="flex flex-wrap gap-2">
                   {data.languages.map((l) => (
@@ -204,13 +205,15 @@ export default function Footer() {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
 
         <div className="border-t border-white/5" />
 
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-gray-600 text-xs tracking-wide">
+        {/* Bottom bar */}
+        <div className="px-5 sm:px-8 md:px-6 py-4 sm:py-5 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3">
+          <p className="text-gray-600 text-xs tracking-wide text-center sm:text-start">
             &copy; {year} {t.brand}. {t.rights}
           </p>
         </div>

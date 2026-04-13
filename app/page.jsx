@@ -83,7 +83,7 @@ export default function HomePage() {
 ═══════════════════════════════════════ */
 function Hero({ data, t }) {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#f4f4f4]">
+    <section className="relative min-h-[60vh] sm:min-h-screen flex items-center overflow-hidden bg-[#f4f4f4]">
       {/* Full-bleed background image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -94,61 +94,62 @@ function Hero({ data, t }) {
           priority
           unoptimized
         />
-        {/* White fade left-to-right */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent" />
+        {/* White fade left-to-right — on mobile use top-to-bottom overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent sm:from-white sm:via-white/70 sm:to-transparent" />
         {/* Bottom fade to white */}
         <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-white to-transparent" />
       </div>
 
-      <div className="relative z-10    px-16 pb-16 w-full">
+      {/* Content — mobile: px-5 pt-24 pb-20 | tablet+: px-16 pb-16 */}
+      <div className="relative z-10 w-full px-5 pt-16 pb-12 sm:px-10 md:px-16 md:pb-16">
         {/* Overline */}
-        <div className="flex items-center gap-3 mb-6 animate-fadein">
-          <div className="w-8 h-px bg-[#C9A227]" />
-          <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#C9A227]">
+        <div className="flex items-center gap-3 mb-5 animate-fadein">
+          <div className="w-6 sm:w-8 h-px bg-[#C9A227]" />
+          <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#C9A227]">
             {t.hero.badge}
           </span>
         </div>
 
-<h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[70px] font-black tracking-tighter max-w-3xl mb-8 animate-fadein-up">
-  {(() => {
-    const words = t.hero.headline.split(" ");
-    const black = words.slice(0, 2).join(" ");
-    const blue  = words.slice(2).join(" ");
-    return (
-      <>
-        <span className="text-[#0a0a0a]">{black}</span>
-        <br />
-        <span className="text-[#C9A227]">{blue}</span>
-      </>
-    );
-  })()}
-</h1>
+        {/* Headline */}
+        <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[70px] font-black tracking-tighter max-w-3xl mb-4 sm:mb-8 animate-fadein-up leading-[1.05]">          {(() => {
+            const words = t.hero.headline.split(" ");
+            const black = words.slice(0, 2).join(" ");
+            const blue  = words.slice(2).join(" ");
+            return (
+              <>
+                <span className="text-[#0a0a0a]">{black}</span>
+                <br />
+                <span className="text-[#C9A227]">{blue}</span>
+              </>
+            );
+          })()}
+        </h1>
 
         {/* Subheadline */}
-        <p className="text-gray-500 text-lg max-w-lg mb-10 leading-relaxed animate-fadein-up2">
+        <p className="text-gray-500 text-sm sm:text-lg max-w-lg mb-6 sm:mb-10 leading-relaxed animate-fadein-up2">
           {t.hero.subheadline}
         </p>
 
-        {/* CTAs */}
-        <div className="flex flex-wrap gap-4 animate-fadein-up2">
+        {/* CTAs — stack vertically on very small screens */}
+        <div className="flex flex-row flex-wrap gap-2.5 sm:gap-4 animate-fadein-up2">
           <Link
             href={data.hero.ctaConsultationHref}
-            className="inline-flex items-center gap-2 bg-[#C9A227] text-white px-8 py-4 rounded-lg text-base hover:bg-[#977a1d] transition-colors shadow-lg shadow-amber-900/20"
+            className="inline-flex items-center justify-center gap-2 bg-[#C9A227] text-white px-5 sm:px-8 py-2.5 sm:py-4 rounded-lg text-xs sm:text-base hover:bg-[#977a1d] transition-colors shadow-lg shadow-amber-900/20"
           >
             {t.hero.ctaConsultation}
-            <ArrowRight size={16} />
+            <ArrowRight size={15} />
           </Link>
           <Link
             href={data.hero.ctaApplyHref}
-            className="inline-flex items-center gap-2 border-2 border-[#0a0a0a] text-[#0a0a0a] font-bold px-8 py-4 rounded-lg text-base hover:bg-[#0a0a0a] hover:text-white transition-all"
+            className="inline-flex items-center justify-center gap-2 border-2 border-[#0a0a0a] text-[#0a0a0a] font-bold px-5 sm:px-8 py-2.5 sm:py-4 rounded-lg text-xs sm:text-base hover:bg-[#0a0a0a] hover:text-white transition-all"
           >
             {t.hero.ctaApply}
           </Link>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce">
+      {/* Scroll indicator — hide on very small screens to avoid clutter */}
+      <div className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex-col items-center gap-2 animate-bounce">
         <div className="w-px h-10 bg-gray-300" />
         <span className="text-[10px] tracking-[0.2em] uppercase text-gray-400 font-medium">Scroll</span>
       </div>
@@ -163,12 +164,12 @@ function Why({ data, t }) {
   const [ref, visible] = useReveal();
 
   return (
-<section ref={ref} className="py-28 bg-white">
-  <div className=" max-w-7xl mx-auto px-16 grid lg:grid-cols-2 gap-20 items-center">
+    <section ref={ref} className="py-10 sm:py-20 md:py-28 bg-white">
+      <div className="max-w-7xl mx-auto px-5 sm:px-10 md:px-16 grid lg:grid-cols-2 gap-10 md:gap-16 lg:gap-20 items-center">
 
-        {/* Image */}
+        {/* Image — full width on mobile, natural on desktop */}
         <div
-          className={`relative overflow-hidden rounded-2xl aspect-[4/3] transition-all duration-700 ease-out ${
+          className={`relative overflow-hidden rounded-2xl aspect-[3/2] sm:aspect-[4/3] w-full transition-all duration-700 ease-out ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -179,7 +180,7 @@ function Why({ data, t }) {
             className="object-cover"
             unoptimized
           />
-          {/* blue accent bottom bar */}
+          {/* accent bottom bar */}
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#C9A227]" />
         </div>
 
@@ -187,7 +188,7 @@ function Why({ data, t }) {
         <div>
           <Label text="Why Us" visible={visible} />
           <h2
-            className={`text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-10 transition-all duration-700 delay-100 ${
+            className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight mb-5 sm:mb-10 transition-all duration-700 delay-100 ${
               visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
@@ -198,15 +199,15 @@ function Why({ data, t }) {
             {t.why.points.map((point, i) => (
               <li
                 key={i}
-                className={`flex items-center gap-5 py-4 transition-all duration-500 ${
+                className={`flex items-center gap-4 py-3.5 sm:py-4 transition-all duration-500 ${
                   visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"
                 }`}
                 style={{ transitionDelay: `${150 + i * 70}ms` }}
               >
-                <span className="shrink-0 w-7 h-7 rounded-full border-2 border-[#C9A227] flex items-center justify-center">
-                  <Check size={12} color="#C9A227" />
+                <span className="shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-[#C9A227] flex items-center justify-center">
+                  <Check size={11} color="#C9A227" />
                 </span>
-                <span className="text-gray-700 font-medium text-[15px] leading-snug">
+                <span className="text-gray-700 font-medium text-sm sm:text-[15px] leading-snug">
                   {point}
                 </span>
               </li>
@@ -230,32 +231,32 @@ function Services({ data, t }) {
   }));
 
   return (
-<section ref={ref} className="py-28 bg-[#f7f7f7]">
-  <div className="   px-16">
+    <section ref={ref} className="py-10 sm:py-20 md:py-28 bg-[#f7f7f7]">
+      <div className="px-5 sm:px-10 md:px-16">
 
-        {/* Header row */}
+        {/* Header row — stack on mobile */}
         <div
-          className={`flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14 transition-all duration-700 ${
+          className={`flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-7 sm:mb-14 transition-all duration-700 ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
           <div>
             <Label text="Our Services" visible={visible} />
-            <h2 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">
               {t.services.title}
             </h2>
           </div>
           <Link
             href={data.services.ctaHref}
-            className="inline-flex items-center gap-2 border-2 border-[#0a0a0a] text-[#0a0a0a] font-bold px-6 py-3 rounded-lg text-sm hover:bg-[#0a0a0a] hover:text-white transition-all shrink-0"
+            className="inline-flex items-center gap-2 border-2 border-[#0a0a0a] text-[#0a0a0a] font-bold px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm hover:bg-[#0a0a0a] hover:text-white transition-all shrink-0 self-start sm:self-auto"
           >
             {t.services.cta}
-            <ArrowRight size={14} />
+            <ArrowRight size={13} />
           </Link>
         </div>
 
-        {/* Cards grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Cards grid — 1 col mobile, 2 col tablet, 3 col desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {merged.map((s, i) => (
             <ServiceCard key={s.id} service={s} visible={visible} delay={i * 70} />
           ))}
@@ -275,7 +276,7 @@ function ServiceCard({ service, visible, delay }) {
       style={{ transitionDelay: `${delay}ms` }}
     >
       {/* Image */}
-      <div className="relative h-48 overflow-hidden bg-gray-100">
+      <div className="relative h-36 sm:h-48 overflow-hidden bg-gray-100">
         <Image
           src={service.image}
           alt={service.title}
@@ -291,11 +292,11 @@ function ServiceCard({ service, visible, delay }) {
       </div>
 
       {/* Body */}
-      <div className="p-6 flex flex-col gap-3 flex-1">
-        <h3 className="font-black text-[#0a0a0a] text-base leading-snug group-hover:text-[#C9A227] transition-colors duration-150">
+      <div className="p-5 sm:p-6 flex flex-col gap-2.5 sm:gap-3 flex-1">
+        <h3 className="font-black text-[#0a0a0a] text-sm sm:text-base leading-snug group-hover:text-[#C9A227] transition-colors duration-150">
           {service.title}
         </h3>
-        <p className="text-gray-500 text-sm leading-relaxed flex-1">
+        <p className="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">
           {service.desc}
         </p>
         <div className="flex items-center gap-1 text-xs font-bold text-[#C9A227] mt-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200">
@@ -318,8 +319,7 @@ function Stats({ data, t }) {
   }));
 
   return (
-    <section ref={ref} className="relative py-28 overflow-hidden bg-[#0a0a0a]">
-      {/* Background image */}
+    <section ref={ref} className="relative py-10 sm:py-20 md:py-28 overflow-hidden bg-[#0a0a0a]">      {/* Background image */}
       <div className="absolute inset-0 z-0 opacity-15">
         <Image
           src={data.stats.backgroundImage}
@@ -329,37 +329,38 @@ function Stats({ data, t }) {
           unoptimized
         />
       </div>
-      {/* blue top border */}
+      {/* accent top border */}
       <div className="absolute top-0 inset-x-0 h-[3px] bg-[#C9A227] z-10" />
 
-      <div className="relative z-10    px-16">
+      <div className="relative z-10 px-5 sm:px-10 md:px-16">
         <div
-          className={`mb-14 transition-all duration-700 ${
+          className={`mb-7 sm:mb-14 transition-all duration-700 ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
           <Label text="Track Record" visible={visible} dark />
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">
             {t.stats.title}
           </h2>
         </div>
 
+        {/* Stats grid — 2 cols on mobile, 4 on desktop */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/8 rounded-2xl overflow-hidden border border-white/8">
           {merged.map((s, i) => (
             <div
               key={i}
-              className={`bg-[#111] p-10 flex flex-col gap-2 transition-all duration-500 ${
+              className={`bg-[#111] p-4 sm:p-8 md:p-10 flex flex-col gap-2 transition-all duration-500 ${
                 visible ? "opacity-100" : "opacity-0"
               }`}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <span className="text-5xl sm:text-6xl font-black text-white tracking-tighter leading-none">
+              <span className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tighter leading-none">
                 {s.value}
               </span>
-              <span className="text-gray-400 text-xs font-semibold uppercase tracking-widest mt-2">
+              <span className="text-gray-400 text-[10px] sm:text-xs font-semibold uppercase tracking-widest mt-1 sm:mt-2">
                 {s.label}
               </span>
-              <div className="w-6 h-0.5 bg-[#C9A227] mt-2" />
+              <div className="w-5 sm:w-6 h-0.5 bg-[#C9A227] mt-1.5 sm:mt-2" />
             </div>
           ))}
         </div>
@@ -367,8 +368,9 @@ function Stats({ data, t }) {
     </section>
   );
 }
+
 /* ═══════════════════════════════════════
-   SHAblue — Section Label
+   LABEL — Section Label
 ═══════════════════════════════════════ */
 function Label({ text, visible, dark = false }) {
   return (
@@ -377,9 +379,9 @@ function Label({ text, visible, dark = false }) {
         visible ? "opacity-100" : "opacity-0"
       }`}
     >
-      <div className="w-5 h-px bg-[#C9A227]" />
+      <div className="w-4 sm:w-5 h-px bg-[#C9A227]" />
       <span
-        className={`text-xs font-bold tracking-[0.2em] uppercase ${
+        className={`text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase ${
           dark ? "text-gray-400" : "text-[#C9A227]"
         }`}
       >
@@ -390,7 +392,7 @@ function Label({ text, visible, dark = false }) {
 }
 
 /* ═══════════════════════════════════════
-   INLINE SVG ICONS — zero emoji
+   INLINE SVG ICONS
 ═══════════════════════════════════════ */
 function ArrowRight({ size = 16, color = "currentColor" }) {
   return (
@@ -405,22 +407,6 @@ function Check({ size = 16, color = "currentColor" }) {
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
       stroke={color} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
       <path d="M20 6L9 17l-5-5" />
-    </svg>
-  );
-}
-function Menu({ size = 20 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke="currentColor" strokeWidth={2} strokeLinecap="round">
-      <path d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  );
-}
-function X({ size = 20 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke="currentColor" strokeWidth={2} strokeLinecap="round">
-      <path d="M18 6L6 18M6 6l12 12" />
     </svg>
   );
 }
@@ -443,4 +429,10 @@ const STYLES = `
   .animate-fadein      { animation: fadein    0.6s ease both; }
   .animate-fadein-up   { animation: fadein-up 0.7s ease 0.1s both; }
   .animate-fadein-up2  { animation: fadein-up 0.7s ease 0.25s both; }
+
+  /* Extra small breakpoint (< 480px) for xs: utilities */
+  @media (min-width: 480px) {
+    .xs\\:flex-row { flex-direction: row; }
+    .xs\\:w-auto   { width: auto; }
+  }
 `;

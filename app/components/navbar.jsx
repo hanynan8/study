@@ -104,17 +104,18 @@ function LangDropdown({ languages }) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-[#0a0a0a] border border-gray-200 rounded-lg hover:border-gray-300 transition-all duration-150"
+        className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-2 text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-[#0a0a0a] border border-gray-200 rounded-lg hover:border-gray-300 transition-all duration-150"
       >
         <Globe size={13} />
-        <span>{current.flag} {current.code.toUpperCase()}</span>
+        <span className="hidden xs:inline">{current.flag}</span>
+        <span>{current.code.toUpperCase()}</span>
         <span className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}>
           <ChevronDown size={12} />
         </span>
       </button>
 
       {open && (
-        <div className="absolute right-0 top-[calc(100%+8px)] w-44 bg-white border border-gray-100 rounded-xl shadow-xl shadow-black/8 overflow-hidden z-50 animate-dropdown">
+        <div className="absolute right-0 top-[calc(100%+8px)] w-40 sm:w-44 bg-white border border-gray-100 rounded-xl shadow-xl shadow-black/8 overflow-hidden z-50 animate-dropdown">
           {languages.map((lang) => (
             <button
               key={lang.code}
@@ -158,12 +159,12 @@ function UserDropdown({ user }) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 px-3 py-1.5 border border-gray-200 rounded-lg hover:border-gray-300 transition-all duration-150"
+        className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 border border-gray-200 rounded-lg hover:border-gray-300 transition-all duration-150"
       >
         <span className="w-7 h-7 rounded-full bg-[#C9A227] text-white text-xs font-bold flex items-center justify-center">
           {initial}
         </span>
-        <span className="text-sm font-semibold text-[#0a0a0a] max-w-[100px] truncate">
+        <span className="hidden sm:block text-sm font-semibold text-[#0a0a0a] max-w-[80px] truncate">
           {user?.name}
         </span>
         <span className={`transition-transform duration-200 text-gray-400 ${open ? "rotate-180" : ""}`}>
@@ -213,22 +214,22 @@ const AUTH_I18N = {
       errEmpty: "من فضلك ادخل جميع البيانات",
       errWrong: "الاسم أو الباسورد غلط",
     },
-register: {
-  title: "إنشاء حساب",
-  subtitle: "ادخل بياناتك لإنشاء حساب جديد",
-  name: "الاسم الكامل",
-  namePlaceholder: "الاسم الكامل",
-  email: "الإيميل",
-  password: "كلمة المرور",
-  submit: "إنشاء الحساب",
-  switchText: "عندك حساب بالفعل؟",
-  switchCta: "سجّل دخولك",
-  errEmpty: "من فضلك ادخل جميع البيانات",
-  errFail: "حصل خطأ، حاول تاني",
-  errRegistered: "تم التسجيل، حاول تسجيل الدخول",
-  errNameTaken: "الاسم ده موجود بالفعل، جرب اسم تاني",   // ← جوه هنا
-  errEmailTaken: "الإيميل ده مسجل بالفعل، جرب تسجيل الدخول", // ← جوه هنا
-},
+    register: {
+      title: "إنشاء حساب",
+      subtitle: "ادخل بياناتك لإنشاء حساب جديد",
+      name: "الاسم الكامل",
+      namePlaceholder: "الاسم الكامل",
+      email: "الإيميل",
+      password: "كلمة المرور",
+      submit: "إنشاء الحساب",
+      switchText: "عندك حساب بالفعل؟",
+      switchCta: "سجّل دخولك",
+      errEmpty: "من فضلك ادخل جميع البيانات",
+      errFail: "حصل خطأ، حاول تاني",
+      errRegistered: "تم التسجيل، حاول تسجيل الدخول",
+      errNameTaken: "الاسم ده موجود بالفعل، جرب اسم تاني",
+      errEmailTaken: "الإيميل ده مسجل بالفعل، جرب تسجيل الدخول",
+    },
   },
   en: {
     font: "'DM Sans', sans-serif",
@@ -244,31 +245,31 @@ register: {
       switchCta: "Sign up",
       errEmpty: "Please fill in all fields",
       errWrong: "Incorrect name or password",
-      errNameTaken:  "This name is already taken",
-errEmailTaken: "This email is already registered",
+      errNameTaken: "This name is already taken",
+      errEmailTaken: "This email is already registered",
     },
-register: {
-  title: "Create account",
-  subtitle: "Enter your details to get started",
-  name: "Full Name",
-  namePlaceholder: "Your full name",
-  email: "Email",
-  password: "Password",
-  submit: "Create account",
-  switchText: "Already have an account?",
-  switchCta: "Sign in",
-  errEmpty: "Please fill in all fields",
-  errFail: "Something went wrong, try again",
-  errRegistered: "Registered! Please sign in",
-  errNameTaken: "This name is already taken",   // ← جوه هنا
-  errEmailTaken: "This email is already registered", // ← جوه هنا
-},
+    register: {
+      title: "Create account",
+      subtitle: "Enter your details to get started",
+      name: "Full Name",
+      namePlaceholder: "Your full name",
+      email: "Email",
+      password: "Password",
+      submit: "Create account",
+      switchText: "Already have an account?",
+      switchCta: "Sign in",
+      errEmpty: "Please fill in all fields",
+      errFail: "Something went wrong, try again",
+      errRegistered: "Registered! Please sign in",
+      errNameTaken: "This name is already taken",
+      errEmailTaken: "This email is already registered",
+    },
   },
   es: {
     font: "'DM Sans', sans-serif",
     dir: "ltr",
-    errNameTaken:  "Este nombre ya está en uso",
-errEmailTaken: "Este correo ya está registrado",
+    errNameTaken: "Este nombre ya está en uso",
+    errEmailTaken: "Este correo ya está registrado",
     login: {
       title: "Bienvenido de nuevo",
       subtitle: "Inicia sesión para continuar",
@@ -281,22 +282,22 @@ errEmailTaken: "Este correo ya está registrado",
       errEmpty: "Por favor completa todos los campos",
       errWrong: "Nombre o contraseña incorrectos",
     },
-register: {
-  title: "Crear cuenta",
-  subtitle: "Ingresa tus datos para comenzar",
-  name: "Nombre completo",
-  namePlaceholder: "Tu nombre completo",
-  email: "Correo electrónico",
-  password: "Contraseña",
-  submit: "Crear cuenta",
-  switchText: "¿Ya tienes cuenta?",
-  switchCta: "Inicia sesión",
-  errEmpty: "Por favor completa todos los campos",
-  errFail: "Algo salió mal, inténtalo de nuevo",
-  errRegistered: "Registrado. Por favor inicia sesión",
-  errNameTaken: "Este nombre ya está en uso",   // ← جوه هنا
-  errEmailTaken: "Este correo ya está registrado", // ← جوه هنا
-},
+    register: {
+      title: "Crear cuenta",
+      subtitle: "Ingresa tus datos para comenzar",
+      name: "Nombre completo",
+      namePlaceholder: "Tu nombre completo",
+      email: "Correo electrónico",
+      password: "Contraseña",
+      submit: "Crear cuenta",
+      switchText: "¿Ya tienes cuenta?",
+      switchCta: "Inicia sesión",
+      errEmpty: "Por favor completa todos los campos",
+      errFail: "Algo salió mal, inténtalo de nuevo",
+      errRegistered: "Registrado. Por favor inicia sesión",
+      errNameTaken: "Este nombre ya está en uso",
+      errEmailTaken: "Este correo ya está registrado",
+    },
   },
 };
 
@@ -350,46 +351,46 @@ function AuthModal({ mode, onClose, onSwitch }) {
     else onClose();
   };
 
-const handleRegister = async (e) => {
-  e.preventDefault();
-  if (!form.name || !form.email || !form.password) { setError(tx.errEmpty); return; }
-  setLoading(true);
-  try {
-    // ← جلب المستخدمين الموجودين والتحقق
-    const checkRes = await fetch("/api/data?collection=auth", { cache: "no-store" });
-    if (checkRes.ok) {
-      const authData = await checkRes.json();
-      const users =
-        Array.isArray(authData)      ? authData      :
-        Array.isArray(authData.auth) ? authData.auth :
-        Array.isArray(authData.data) ? authData.data : [];
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.password) { setError(tx.errEmpty); return; }
+    setLoading(true);
+    try {
+      const checkRes = await fetch("/api/data?collection=auth", { cache: "no-store" });
+      if (checkRes.ok) {
+        const authData = await checkRes.json();
+        const users =
+          Array.isArray(authData)      ? authData      :
+          Array.isArray(authData.auth) ? authData.auth :
+          Array.isArray(authData.data) ? authData.data : [];
 
-      const nameTaken  = users.some(u => u.name?.toLowerCase().trim()  === form.name.toLowerCase().trim());
-      const emailTaken = users.some(u => u.email?.toLowerCase().trim() === form.email.toLowerCase().trim());
+        const nameTaken  = users.some(u => u.name?.toLowerCase().trim()  === form.name.toLowerCase().trim());
+        const emailTaken = users.some(u => u.email?.toLowerCase().trim() === form.email.toLowerCase().trim());
 
-      if (nameTaken)  { setError(tx.errNameTaken);  setLoading(false); return; }
-      if (emailTaken) { setError(tx.errEmailTaken); setLoading(false); return; }
+        if (nameTaken)  { setError(tx.errNameTaken);  setLoading(false); return; }
+        if (emailTaken) { setError(tx.errEmailTaken); setLoading(false); return; }
+      }
+
+      const res = await fetch("/api/data?collection=auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: form.name, email: form.email, password: form.password }),
+      });
+      if (!res.ok) throw new Error();
+      const signInRes = await signIn("credentials", {
+        redirect: false,
+        nameOrEmail: form.email,
+        password: form.password,
+      });
+      setLoading(false);
+      if (signInRes?.error) { setError(tx.errRegistered); onSwitch("login"); }
+      else onClose();
+    } catch {
+      setLoading(false);
+      setError(tx.errFail);
     }
+  };
 
-    const res = await fetch("/api/data?collection=auth", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: form.name, email: form.email, password: form.password }),
-    });
-    if (!res.ok) throw new Error();
-    const signInRes = await signIn("credentials", {
-      redirect: false,
-      nameOrEmail: form.email,
-      password: form.password,
-    });
-    setLoading(false);
-    if (signInRes?.error) { setError(tx.errRegistered); onSwitch("login"); }
-    else onClose();
-  } catch {
-    setLoading(false);
-    setError(tx.errFail);
-  }
-};
   const eyePositionClass = isRTL ? "left-3" : "right-3";
   const passwordPaddingClass = isRTL ? "pl-11" : "pr-11";
 
@@ -409,15 +410,16 @@ const handleRegister = async (e) => {
 
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors z-10"
+          className="absolute top-4 p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors z-10"
           style={{ right: isRTL ? "auto" : "1rem", left: isRTL ? "1rem" : "auto" }}
         >
           <XIcon size={16} />
         </button>
 
-        <div className="px-8 pt-8 pb-10">
-          <div className="mb-7">
-            <h2 className="text-2xl font-black text-[#0a0a0a] tracking-tight">
+        {/* Modal padding: smaller on mobile */}
+        <div className="px-5 sm:px-8 pt-7 sm:pt-8 pb-8 sm:pb-10">
+          <div className="mb-6 sm:mb-7">
+            <h2 className="text-xl sm:text-2xl font-black text-[#0a0a0a] tracking-tight">
               {tx.title}<span className="text-[#C9A227]">.</span>
             </h2>
             <p className="text-sm text-gray-400 mt-1 font-medium">{tx.subtitle}</p>
@@ -478,7 +480,7 @@ const handleRegister = async (e) => {
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-red-50 border border-red-100">
+              <div className="flex items-center gap-2 px-3 sm:px-4 py-3 rounded-xl bg-red-50 border border-red-100">
                 <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="#C9A227" strokeWidth={2.5} strokeLinecap="round">
                   <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
                 </svg>
@@ -505,7 +507,7 @@ const handleRegister = async (e) => {
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-400 mt-6 font-medium">
+          <p className="text-center text-sm text-gray-400 mt-5 sm:mt-6 font-medium">
             {tx.switchText}{" "}
             <button
               onClick={() => onSwitch(isLogin ? "register" : "login")}
@@ -532,7 +534,6 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [authModal, setAuthModal] = useState(null);
 
-  // ── Hide navbar on all /admin routes ──
   if (pathname.startsWith("/admin")) return null;
 
   const isLoading = status === "loading";
@@ -543,6 +544,9 @@ export default function Navbar() {
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   if (!data) return null;
 
@@ -556,7 +560,7 @@ export default function Navbar() {
 
   const AuthControls = () => {
     if (isLoading) {
-      return <div className="w-24 h-9 rounded-lg bg-gray-100 animate-pulse" />;
+      return <div className="w-20 sm:w-24 h-9 rounded-lg bg-gray-100 animate-pulse" />;
     }
     if (isLoggedIn) {
       return <UserDropdown user={session.user} />;
@@ -565,13 +569,13 @@ export default function Navbar() {
       <div className="flex items-center gap-2">
         <button
           onClick={() => openModal("login")}
-          className="px-4 py-2 text-sm font-bold text-[#0a0a0a] border border-gray-200 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition-all duration-150"
+          className="px-3 sm:px-4 py-2 text-sm font-bold text-[#0a0a0a] border border-gray-200 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition-all duration-150"
         >
           Log in
         </button>
         <button
           onClick={() => openModal("register")}
-          className="inline-flex items-center gap-2 bg-[#C9A227] text-white text-sm font-bold px-5 py-2.5 rounded-lg hover:bg-[#977a1d] active:scale-95 transition-all shadow-sm shadow-amber-900/20"
+          className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#C9A227] text-white text-sm font-bold px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg hover:bg-[#977a1d] active:scale-95 transition-all shadow-sm shadow-amber-900/20"
         >
           Sign up
           <ArrowRight size={13} />
@@ -606,7 +610,7 @@ export default function Navbar() {
       );
     }
     return (
-      <div className="flex gap-2 mt-3">
+      <div className="flex gap-2 mt-3 pt-2">
         <button
           onClick={() => openModal("login")}
           className="flex-1 text-center py-3 text-sm font-bold border border-gray-200 rounded-lg text-[#0a0a0a] hover:bg-gray-50 transition-colors"
@@ -644,20 +648,24 @@ export default function Navbar() {
         }`}
         style={{ fontFamily: "'DM Sans', 'Tajawal', sans-serif" }}
       >
-        <div className="mx-auto px-16 h-[68px] flex items-center justify-between gap-6">
-          <Link href="/" className="shrink-0 flex items-center gap-2.5 hover:opacity-80 transition-opacity">
+        {/* Navbar bar — px-5 on mobile, px-16 on desktop */}
+        <div className="mx-auto px-5 sm:px-8 md:px-16 h-[60px] sm:h-[68px] flex items-center justify-between gap-4">
+
+          {/* Logo */}
+          <Link href="/" className="shrink-0 flex items-center gap-2 hover:opacity-80 transition-opacity">
             {data.logoHref && (
               <img
                 src={data.logoHref}
                 alt={t.brand}
-                className="h-10 w-10 object-cover rounded-full"
+                className="h-8 w-8 sm:h-10 sm:w-10 object-cover rounded-full"
               />
             )}
-            <span className="text-2xl font-black tracking-tighter text-[#C9A227]">
+            <span className="text-xl sm:text-2xl font-black tracking-tighter text-[#C9A227]">
               {t.brand}<span className="text-[#D4AF37]">.</span>
             </span>
           </Link>
 
+          {/* Desktop nav links */}
           <div className="hidden lg:flex items-center gap-1 flex-1 justify-center">
             {data.links.map((link) => (
               <Link
@@ -671,11 +679,13 @@ export default function Navbar() {
             ))}
           </div>
 
+          {/* Desktop right controls */}
           <div className="hidden lg:flex items-center gap-3 shrink-0">
             <LangDropdown languages={data.languages} />
             <AuthControls />
           </div>
 
+          {/* Mobile right controls */}
           <div className="lg:hidden flex items-center gap-2">
             <LangDropdown languages={data.languages} />
             <button
@@ -688,10 +698,11 @@ export default function Navbar() {
           </div>
         </div>
 
+        {/* Mobile drawer */}
         <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
           menuOpen ? "max-h-[560px] opacity-100" : "max-h-0 opacity-0"
         }`}>
-          <div className="bg-white border-t border-gray-100 px-6 py-5 flex flex-col gap-1">
+          <div className="bg-white border-t border-gray-100 px-5 sm:px-6 py-4 sm:py-5 flex flex-col gap-1">
             {data.links.map((link) => (
               <Link
                 key={link.id}
@@ -738,4 +749,9 @@ const NAV_STYLES = `
     to { transform: rotate(360deg); }
   }
   .animate-spin { animation: spin 0.7s linear infinite; }
+
+  /* xs breakpoint for flag visibility */
+  @media (min-width: 480px) {
+    .xs\\:inline { display: inline; }
+  }
 `;
