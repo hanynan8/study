@@ -71,10 +71,6 @@ function ContactHero({ data, t }) {
       </div>
       <div className="relative z-10 w-full px-5 sm:px-8 md:px-6 pb-12 sm:pb-16 md:pb-20 pt-24 sm:pt-28 md:pt-32">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-4 sm:mb-5 animate-fadein">
-            <div className="w-6 sm:w-8 h-px bg-[#1D6FD8]" />
-            <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">{t.hero.badge}</span>
-          </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-[0.92] tracking-tighter text-white max-w-2xl mb-4 sm:mb-5 animate-fadein-up">
             {t.hero.headline.split(",").map((chunk, i, arr) =>
               i === arr.length - 1
@@ -88,7 +84,9 @@ function ContactHero({ data, t }) {
     </section>
   );
 }
-
+function PhoneIcon() {
+  return <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#1D6FD8" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z" /></svg>;
+}
 function ContactMain({ data, t }) {
   const [ref, visible] = useReveal();
   return (
@@ -96,13 +94,16 @@ function ContactMain({ data, t }) {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-6 grid lg:grid-cols-2 gap-12 md:gap-14 lg:gap-16 items-start">
         {/* Info cards */}
         <div>
-          <Label text={t.info.label} visible={visible} />
           <h2 className={`text-3xl sm:text-4xl font-black tracking-tight leading-tight mb-8 sm:mb-10 transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             {t.info.title}
           </h2>
           <div className="flex flex-col gap-4 sm:gap-5">
-            <InfoCard visible={visible} delay={150} icon={<EmailIcon />} label={t.info.emailLabel} value={data.contact.email} href={`mailto:${data.contact.email}`} />
-            <InfoCard visible={visible} delay={220} icon={<WhatsAppIcon />} label={t.info.whatsappLabel} value={data.contact.whatsappDisplay} href={`https://wa.me/${data.contact.whatsappNumber}`} isExternal accent />
+<InfoCard visible={visible} delay={150} icon={<EmailIcon />} label={t.info.emailLabel} value={data.contact.email} href={`mailto:${data.contact.email}`} />
+<InfoCard visible={visible} delay={220} icon={<WhatsAppIcon />} label={t.info.whatsappLabel} value={data.contact.whatsappDisplay}  isExternal accent />
+
+{/* Static phone numbers */}
+<InfoCard visible={visible} delay={290} icon={<PhoneIcon />} label="Qatar" value="+971 47 190 1935" />
+<InfoCard visible={visible} delay={360} icon={<PhoneIcon />} label="Spain" value="+34 612 23 13 93" />
             <div className={`mt-1 p-5 sm:p-6 rounded-2xl bg-[#f7f7f7] border border-gray-100 transition-all duration-500 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
               style={{ transitionDelay: "300ms" }}>
               <p className="text-gray-500 text-sm leading-relaxed">{t.info.note}</p>
@@ -118,7 +119,7 @@ function ContactMain({ data, t }) {
 }
 
 function InfoCard({ icon, label, value, href, isExternal, accent, visible, delay }) {
-  const base = "group flex items-center gap-4 sm:gap-5 p-4 sm:p-5 rounded-2xl border transition-all duration-300 cursor-pointer no-underline";
+  const base = "group flex items-center gap-4 sm:gap-5 p-4 sm:p-5 rounded-2xl border transition-all duration-300 no-underline";
   const cls = accent
     ? `${base} border-[#1D6FD8]/20 bg-[#1D6FD8]/4 hover:bg-[#1D6FD8] hover:border-[#1D6FD8]`
     : `${base} border-gray-100 bg-white hover:border-[#1D6FD8]/30 hover:shadow-lg`;
@@ -140,14 +141,39 @@ function InfoCard({ icon, label, value, href, isExternal, accent, visible, delay
   );
 }
 
+
 function ConsultationForm({ data, t, visible }) {
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
   const [status, setStatus] = useState("idle");
+  const [errors, setErrors] = useState({});
 
-  function handleChange(e) { setForm((prev) => ({ ...prev, [e.target.name]: e.target.value })); }
+  const REQUIRED_LABELS = {
+    en: "Required",
+    ar: "مطلوب",
+    es: "Obligatorio",
+  };
+  const OPTIONAL_LABELS = {
+    en: "Optional",
+    ar: "اختياري",
+    es: "Opcional",
+  };
+
+  const lang = data.i18n ? Object.keys(data.i18n).find((l) => t === data.i18n[l]) ?? "en" : "en";
+
+  function handleChange(e) {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (errors[e.target.name]) setErrors((prev) => ({ ...prev, [e.target.name]: false }));
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const newErrors = {
+      name: !form.name,
+      email: !form.email,
+      phone: !form.phone,
+    };
+    setErrors(newErrors);
+    if (Object.values(newErrors).some(Boolean)) return;
     setStatus("sending");
     try {
       const res = await fetch(data.contact.formEndpoint, {
@@ -159,11 +185,12 @@ function ConsultationForm({ data, t, visible }) {
     } catch { setStatus("error"); }
   }
 
+  const req = REQUIRED_LABELS[lang];
+  const opt = OPTIONAL_LABELS[lang];
+
   return (
     <div className={`transition-all duration-700 delay-200 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-      <Label text={t.form.label} visible={visible} />
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight mb-6 sm:mb-8">{t.form.title}</h2>
-
       {status === "sent" ? (
         <div className="p-8 sm:p-10 rounded-2xl bg-[#1D6FD8]/5 border border-[#1D6FD8]/20 flex flex-col items-center text-center gap-4">
           <span className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#1D6FD8] flex items-center justify-center">
@@ -175,23 +202,34 @@ function ConsultationForm({ data, t, visible }) {
       ) : (
         <div className="flex flex-col gap-3 sm:gap-4">
           <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
-            <Field label={t.form.fields.name} name="name" type="text" value={form.name} onChange={handleChange} required />
-            <Field label={t.form.fields.email} name="email" type="email" value={form.email} onChange={handleChange} required />
+            <Field label={t.form.fields.name} name="name" type="text" value={form.name} onChange={handleChange} badge={req} error={errors.name} />
+            <Field label={t.form.fields.email} name="email" type="email" value={form.email} onChange={handleChange} badge={req} error={errors.email} />
           </div>
-          <Field label={t.form.fields.phone} name="phone" type="tel" value={form.phone} onChange={handleChange} />
+          <Field label={t.form.fields.phone} name="phone" type="tel" value={form.phone} onChange={handleChange} badge={req} error={errors.phone} />
+
+          {/* Service — اختياري */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold uppercase tracking-widest text-gray-400">{t.form.fields.service}</label>
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold uppercase tracking-widest text-gray-400">{t.form.fields.service}</label>
+              <span className="text-[10px] font-semibold text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{opt}</span>
+            </div>
             <select name="service" value={form.service} onChange={handleChange}
               className="w-full bg-[#f7f7f7] border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-[#0a0a0a] focus:outline-none focus:border-[#1D6FD8] transition-colors">
               <option value="">{t.form.fields.servicePlaceholder}</option>
               {t.form.serviceOptions.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
             </select>
           </div>
+
+          {/* Message — اختياري */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold uppercase tracking-widest text-gray-400">{t.form.fields.message}</label>
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold uppercase tracking-widest text-gray-400">{t.form.fields.message}</label>
+              <span className="text-[10px] font-semibold text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{opt}</span>
+            </div>
             <textarea name="message" value={form.message} onChange={handleChange} rows={4} placeholder={t.form.fields.messagePlaceholder}
               className="w-full bg-[#f7f7f7] border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-[#0a0a0a] placeholder-gray-400 focus:outline-none focus:border-[#1D6FD8] transition-colors resize-none" />
           </div>
+
           <button onClick={handleSubmit} disabled={status === "sending"}
             className="inline-flex items-center justify-center gap-2 bg-[#1D6FD8] text-white font-bold px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base hover:bg-[#a50d24] transition-colors shadow-lg disabled:opacity-60 disabled:cursor-not-allowed mt-1">
             {status === "sending" ? (
@@ -207,21 +245,20 @@ function ConsultationForm({ data, t, visible }) {
   );
 }
 
-function Field({ label, name, type, value, onChange, required }) {
+function Field({ label, name, type, value, onChange, badge, error }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-bold uppercase tracking-widest text-gray-400">{label}</label>
-      <input type={type} name={name} value={value} onChange={onChange} required={required}
-        className="w-full bg-[#f7f7f7] border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-[#0a0a0a] focus:outline-none focus:border-[#1D6FD8] transition-colors" />
-    </div>
-  );
-}
-
-function Label({ text, visible, dark = false }) {
-  return (
-    <div className={`flex items-center gap-2 mb-3 transition-all duration-500 ${visible ? "opacity-100" : "opacity-0"}`}>
-      <div className="w-4 sm:w-5 h-px bg-[#1D6FD8]" />
-      <span className={`text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase ${dark ? "text-gray-400" : "text-[#1D6FD8]"}`}>{text}</span>
+      <div className="flex items-center justify-between">
+        <label className="text-xs font-bold uppercase tracking-widest text-gray-400">{label}</label>
+        {badge && (
+          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${error ? "text-red-500 bg-red-50" : "text-gray-400 bg-gray-100"}`}>
+            {badge}
+          </span>
+        )}
+      </div>
+      <input type={type} name={name} value={value} onChange={onChange}
+        className={`w-full bg-[#f7f7f7] border rounded-xl px-4 py-3 text-sm font-medium text-[#0a0a0a] focus:outline-none transition-colors ${error ? "border-red-400 focus:border-red-400" : "border-gray-200 focus:border-[#1D6FD8]"}`} />
+      {error && <span className="text-red-500 text-xs font-medium">{badge}</span>}
     </div>
   );
 }

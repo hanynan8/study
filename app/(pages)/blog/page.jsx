@@ -84,10 +84,7 @@ function BlogHero({ data, t }) {
       </div>
       <div className="relative z-10 w-full px-5 pt-16 pb-12 sm:px-8 md:px-6 sm:pt-0 sm:pb-0 md:pt-0 md:pb-0">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-5 animate-fadein">
-            <div className="w-6 sm:w-8 h-px bg-[#1D6FD8]" />
-            <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">{t.hero.badge}</span>
-          </div>
+
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter max-w-2xl mb-4 sm:mb-5 animate-fadein-up leading-[1.05]">
             {(() => {
               const words = t.hero.headline.split(" ");
@@ -128,7 +125,6 @@ function FeaturedPost({ post, t, lang }) {
   return (
     <section ref={ref} className="py-10 sm:py-14 md:py-16 bg-white">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-6">
-        <Label text={t.featured} visible={visible} />
         <Link href={`/blog/${post.slug}`}
           className={`group grid lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden border border-gray-100 hover:border-[#1D6FD8]/30 hover:shadow-2xl transition-all duration-500 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <div className="relative h-56 sm:h-72 lg:h-auto overflow-hidden bg-gray-100">
@@ -219,38 +215,18 @@ function Newsletter({ data, t }) {
       </div>
       <div className="absolute top-0 inset-x-0 h-[3px] bg-[#1D6FD8] z-10" />
       <div className={`relative z-10 max-w-2xl mx-auto text-center transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-        <Label text={t.newsletter.badge} visible={visible} dark centered />
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight mb-3 sm:mb-4">{t.newsletter.title}</h2>
         <p className="text-gray-400 text-sm sm:text-base mb-8 sm:mb-10">{t.newsletter.subtitle}</p>
         {submitted ? (
           <div className="flex items-center justify-center gap-3 text-[#1D6FD8] font-bold text-lg">
             <Check size={20} color="#1D6FD8" /><span>Thank you!</span>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-              placeholder={t.newsletter.placeholder}
-              className="flex-1 min-w-0 bg-white/8 border border-white/10 text-white placeholder-gray-500 px-4 sm:px-5 py-3 sm:py-4 rounded-lg text-sm focus:outline-none focus:border-[#1D6FD8] transition-colors" />
-            <button type="submit"
-              className="shrink-0 bg-[#1D6FD8] text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm hover:bg-[#a50d24] transition-colors shadow-lg">
-              {t.newsletter.cta}
-            </button>
-          </form>
-        )}
+        ) : null}
       </div>
     </section>
   );
 }
 
-function Label({ text, visible, dark = false, centered = false }) {
-  return (
-    <div className={`flex items-center gap-2 mb-3 transition-all duration-500 ${centered ? "justify-center" : ""} ${visible ? "opacity-100" : "opacity-0"}`}>
-      <div className="w-4 sm:w-5 h-px bg-[#1D6FD8]" />
-      <span className={`text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase ${dark ? "text-gray-400" : "text-[#1D6FD8]"}`}>{text}</span>
-      {centered && <div className="w-4 sm:w-5 h-px bg-[#1D6FD8]" />}
-    </div>
-  );
-}
 
 function ArrowRight({ size = 16, color = "currentColor" }) {
   return (

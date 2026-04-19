@@ -83,80 +83,46 @@ export default function HomePage() {
 ═══════════════════════════════════════ */
 function Hero({ data, t }) {
   return (
-    <section className="relative min-h-[60vh] sm:min-h-screen flex items-center overflow-hidden bg-[#f4f4f4]">
-      {/* Full-bleed background image */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={data.hero.backgroundImage}
-          alt="hero"
-          fill
-          className="object-cover object-center"
-          priority
-          unoptimized
-        />
-        {/* White fade left-to-right — on mobile use top-to-bottom overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent sm:from-white sm:via-white/70 sm:to-transparent" />
-        {/* Bottom fade to white */}
-        <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-white to-transparent" />
-      </div>
+    <section className="relative overflow-hidden bg-[#1E3561]">
+      <div className="w-full flex flex-col md:flex-row md:items-stretch">
 
-      {/* Content — mobile: px-5 pt-24 pb-20 | tablet+: px-16 pb-16 */}
-      <div className="relative z-10 w-full px-5 pt-16 pb-12 sm:px-10 md:px-16 md:pb-16">
-        {/* Overline */}
-        <div className="flex items-center gap-3 mb-5 animate-fadein">
-          <div className="w-6 sm:w-8 h-px bg-[#C9A227]" />
-          <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#C9A227]">
-            {t.hero.badge}
-          </span>
+        {/* LEFT — Text */}
+        <div className="w-full md:w-[35%] flex flex-col justify-center px-6 md:px-10 py-16 md:py-0 min-h-[300px]">
+<h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter mb-4 animate-fadein-up leading-[1.05] whitespace-nowrap">
+  <span style={{
+    paddingTop: "0.2em",
+    paddingBottom: "0.2em",
+    background: "linear-gradient(90deg, rgb(254, 240, 138) 0%, rgb(254, 240, 138) 40%, rgb(250, 204, 21) 100%)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+  }}>
+    {t.hero.headline}
+  </span>
+</h1>
+          <p className="text-gray-400 text-sm sm:text-base leading-relaxed animate-fadein-up2">
+            {t.hero.subheadline}
+          </p>
         </div>
 
-        {/* Headline */}
-        <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[70px] font-black tracking-tighter max-w-3xl mb-4 sm:mb-8 animate-fadein-up leading-[1.05]">          {(() => {
-            const words = t.hero.headline.split(" ");
-            const black = words.slice(0, 2).join(" ");
-            const blue  = words.slice(2).join(" ");
-            return (
-              <>
-                <span className="text-[#0a0a0a]">{black}</span>
-                <br />
-                <span className="text-[#C9A227]">{blue}</span>
-              </>
-            );
-          })()}
-        </h1>
-
-        {/* Subheadline */}
-        <p className="text-gray-500 text-sm sm:text-lg max-w-lg mb-6 sm:mb-10 leading-relaxed animate-fadein-up2">
-          {t.hero.subheadline}
-        </p>
-
-        {/* CTAs — stack vertically on very small screens */}
-        <div className="flex flex-row flex-wrap gap-2.5 sm:gap-4 animate-fadein-up2">
-          <Link
-            href={data.hero.ctaConsultationHref}
-            className="inline-flex items-center justify-center gap-2 bg-[#C9A227] text-white px-5 sm:px-8 py-2.5 sm:py-4 rounded-lg text-xs sm:text-base hover:bg-[#977a1d] transition-colors shadow-lg shadow-amber-900/20"
-          >
-            {t.hero.ctaConsultation}
-            <ArrowRight size={15} />
-          </Link>
-          <Link
-            href={data.hero.ctaApplyHref}
-            className="inline-flex items-center justify-center gap-2 border-2 border-[#0a0a0a] text-[#0a0a0a] font-bold px-5 sm:px-8 py-2.5 sm:py-4 rounded-lg text-xs sm:text-base hover:bg-[#0a0a0a] hover:text-white transition-all"
-          >
-            {t.hero.ctaApply}
-          </Link>
+        {/* RIGHT — Image */}
+        <div className="w-full md:w-[65%] flex items-between justify-end py-6 pr-6">
+          <div className="relative w-[90%] aspect-[4/3]">
+            <Image
+              src={data.hero.backgroundImage}
+              alt="hero"
+              fill
+              className="object-cover object-center rounded-xl"
+              priority
+              unoptimized
+            />
+          </div>
         </div>
-      </div>
 
-      {/* Scroll indicator — hide on very small screens to avoid clutter */}
-      <div className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex-col items-center gap-2 animate-bounce">
-        <div className="w-px h-10 bg-gray-300" />
-        <span className="text-[10px] tracking-[0.2em] uppercase text-gray-400 font-medium">Scroll</span>
       </div>
     </section>
   );
 }
-
 /* ═══════════════════════════════════════
    WHY SECTION
 ═══════════════════════════════════════ */
@@ -186,7 +152,6 @@ function Why({ data, t }) {
 
         {/* Content */}
         <div>
-          <Label text="Why Us" visible={visible} />
           <h2
             className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight mb-5 sm:mb-10 transition-all duration-700 delay-100 ${
               visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -204,8 +169,8 @@ function Why({ data, t }) {
                 }`}
                 style={{ transitionDelay: `${150 + i * 70}ms` }}
               >
-                <span className="shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-[#C9A227] flex items-center justify-center">
-                  <Check size={11} color="#C9A227" />
+                <span className="shrink-0 w-52 h-52 sm:w-7 sm:h-7 flex items-center justify-center">
+                  <Check size={20} color="#C9A227" />
                 </span>
                 <span className="text-gray-700 font-medium text-sm sm:text-[15px] leading-snug">
                   {point}
@@ -241,7 +206,6 @@ function Services({ data, t }) {
           }`}
         >
           <div>
-            <Label text="Our Services" visible={visible} />
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">
               {t.services.title}
             </h2>
@@ -338,7 +302,6 @@ function Stats({ data, t }) {
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <Label text="Track Record" visible={visible} dark />
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">
             {t.stats.title}
           </h2>

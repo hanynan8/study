@@ -43,14 +43,6 @@ function Star({ size = 13 }) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" strokeWidth={1.5}><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>;
 }
 
-function Label({ text, visible, dark = false }) {
-  return (
-    <div className={`flex items-center gap-2 mb-3 transition-all duration-500 ${visible ? "opacity-100" : "opacity-0"}`}>
-      <div className="w-4 sm:w-5 h-px bg-[#1D6FD8]" />
-      <span className={`text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase ${dark ? "text-gray-400" : "text-[#1D6FD8]"}`}>{text}</span>
-    </div>
-  );
-}
 
 export default function SuccessStoriesPage() {
   const { language, isRTL } = useLanguage();
@@ -79,7 +71,7 @@ export default function SuccessStoriesPage() {
         <Testimonials data={data} t={t} />
         <Journeys data={data} t={t} />
         <Approvals data={data} t={t} />
-        <CtaBanner t={t} />
+        {/* <CtaBanner t={t} /> */}
       </div>
     </>
   );
@@ -95,10 +87,6 @@ function HeroSection({ data, t }) {
       </div>
       <div className="relative z-10 w-full px-5 sm:px-8 md:px-6 pb-12 sm:pb-16 md:pb-20 pt-24 sm:pt-30 md:pt-36">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-4 sm:mb-5 animate-fadein">
-            <div className="w-6 sm:w-8 h-px bg-[#1D6FD8]" />
-            <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">{t.hero.badge}</span>
-          </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter max-w-2xl mb-4 sm:mb-5 animate-fadein-up leading-[1.05]">
             {(() => {
               const words = t.hero.headline.split(" ");
@@ -138,7 +126,6 @@ function Testimonials({ data, t }) {
     <section ref={ref} className="py-16 sm:py-20 md:py-24 px-5 sm:px-8 md:px-6 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className={`mb-10 sm:mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <Label text={t.sections.testimonials} visible={visible} />
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">{t.sections.testimonials}</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
@@ -175,7 +162,6 @@ function Journeys({ data, t }) {
     <section ref={ref} className="py-16 sm:py-20 md:py-24 px-5 sm:px-8 md:px-6 bg-[#f7f7f7]">
       <div className="max-w-7xl mx-auto">
         <div className={`mb-10 sm:mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <Label text={t.sections.journeys} visible={visible} />
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">{t.sections.journeys}</h2>
         </div>
         <div className="flex flex-col gap-4 sm:gap-5">
@@ -204,7 +190,6 @@ function Journeys({ data, t }) {
                 <div className="absolute top-0 inset-x-0 h-[3px]" style={{ background: j.color }} />
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-2 sm:mb-3" style={{ color: j.color }}>After</p>
                 <p className="text-gray-700 text-xs sm:text-sm leading-relaxed font-medium">{j.after}</p>
-                <span className="inline-block mt-3 sm:mt-4 text-lg">{j.flag}</span>
               </div>
             </div>
           ))}
@@ -221,7 +206,6 @@ function Approvals({ data, t }) {
     <section ref={ref} className="py-16 sm:py-20 md:py-24 px-5 sm:px-8 md:px-6 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className={`mb-10 sm:mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <Label text={t.sections.approvals} visible={visible} />
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-2 sm:mb-3">{ta.title}</h2>
           <p className="text-gray-500 max-w-xl text-sm sm:text-[15px] leading-relaxed">{ta.desc}</p>
         </div>
@@ -251,24 +235,24 @@ function Approvals({ data, t }) {
   );
 }
 
-function CtaBanner({ t }) {
-  const [ref, visible] = useReveal();
-  return (
-    <section ref={ref} className="relative py-16 sm:py-20 md:py-28 px-5 sm:px-8 md:px-6 overflow-hidden bg-[#0a0a0a]">
-      <div className="absolute top-0 inset-x-0 h-[3px] bg-[#1D6FD8]" />
-      <div className="relative z-10 max-w-3xl mx-auto text-center">
-        <div className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight mb-3 sm:mb-4">{t.cta.title}</h2>
-          <p className="text-gray-400 text-sm sm:text-[15px] mb-8 sm:mb-10 leading-relaxed">{t.cta.desc}</p>
-          <Link href="/contact"
-            className="inline-flex items-center gap-2 bg-[#1D6FD8] text-white font-bold px-7 sm:px-8 py-3.5 sm:py-4 rounded-lg text-sm sm:text-base hover:bg-[#a50d24] transition-colors shadow-lg">
-            {t.cta.button} <ArrowRight size={16} />
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
+// function CtaBanner({ t }) {
+  // const [ref, visible] = useReveal();
+//   return (
+//     <section ref={ref} className="relative py-16 sm:py-20 md:py-28 px-5 sm:px-8 md:px-6 overflow-hidden bg-[#0a0a0a]">
+//       <div className="absolute top-0 inset-x-0 h-[3px] bg-[#1D6FD8]" />
+//       <div className="relative z-10 max-w-3xl mx-auto text-center">
+//         <div className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+//           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight mb-3 sm:mb-4">{t.cta.title}</h2>
+//           <p className="text-gray-400 text-sm sm:text-[15px] mb-8 sm:mb-10 leading-relaxed">{t.cta.desc}</p>
+//           <Link href="/contact"
+//             className="inline-flex items-center gap-2 bg-[#1D6FD8] text-white font-bold px-7 sm:px-8 py-3.5 sm:py-4 rounded-lg text-sm sm:text-base hover:bg-[#a50d24] transition-colors shadow-lg">
+//             {t.cta.button} <ArrowRight size={16} />
+//           </Link>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
 
 const STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,900&family=Tajawal:wght@400;700;800&display=swap');

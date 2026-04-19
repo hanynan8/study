@@ -7,7 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 /* ─────────────────────────────────────────
-   FETCH HOOK
+  FETCH HOOK
 ───────────────────────────────────────── */
 function useNavbarData() {
   const [data, setData] = useState(null);
@@ -24,7 +24,7 @@ function useNavbarData() {
 }
 
 /* ─────────────────────────────────────────
-   ICONS
+  ICONS
 ───────────────────────────────────────── */
 function ArrowRight({ size = 14 }) {
   return (
@@ -530,7 +530,6 @@ export default function Navbar() {
   const { language } = useLanguage();
   const data = useNavbarData();
   const { data: session, status } = useSession();
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [authModal, setAuthModal] = useState(null);
 
@@ -538,12 +537,6 @@ export default function Navbar() {
 
   const isLoading = status === "loading";
   const isLoggedIn = status === "authenticated";
-
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
 
   // Close mobile menu on route change
   useEffect(() => { setMenuOpen(false); }, [pathname]);
@@ -638,16 +631,11 @@ export default function Navbar() {
           onSwitch={(m) => setAuthModal(m)}
         />
       )}
-
-      <nav
-        dir={isRTL ? "rtl" : "ltr"}
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-white/85 backdrop-blur-lg border-b border-gray-300 shadow-md"
-            : "bg-white/10 backdrop-blur-md border-b border-white/20"
-        }`}
-        style={{ fontFamily: "'DM Sans', 'Tajawal', sans-serif" }}
-      >
+<nav
+  dir={isRTL ? "rtl" : "ltr"}
+  className="sticky top-0 z-50 bg-white border-b border-gray-100"
+  style={{ fontFamily: "'DM Sans', 'Tajawal', sans-serif" }}
+>
         {/* Navbar bar — px-5 on mobile, px-16 on desktop */}
         <div className="mx-auto px-5 sm:px-8 md:px-16 h-[60px] sm:h-[68px] flex items-center justify-between gap-4">
 
@@ -661,22 +649,24 @@ export default function Navbar() {
               />
             )}
             <span className="text-xl sm:text-2xl font-black tracking-tighter text-[#C9A227]">
-              {t.brand}<span className="text-[#D4AF37]">.</span>
+              {t.brand}
             </span>
           </Link>
 
           {/* Desktop nav links */}
           <div className="hidden lg:flex items-center gap-1 flex-1 justify-center">
-            {data.links.map((link) => (
-              <Link
-                key={link.id}
-                href={link.href}
-                className="relative px-3 py-2 text-lg font-medium text-gray-500 hover:text-[#0a0a0a] transition-colors tracking-wide group"
-              >
-                {t.links[link.id]}
-                <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#C9A227] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
-              </Link>
-            ))}
+{data.links
+  .filter((_, i) => i !== 4 && i !== 5)
+  .map((link) => (
+    <Link
+      key={link.id}
+      href={link.href}
+      className="relative px-3 py-2 text-lg font-medium text-gray-500 hover:text-[#0a0a0a] transition-colors tracking-wide group"
+    >
+      {t.links[link.id]}
+      <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#C9A227] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
+    </Link>
+  ))}
           </div>
 
           {/* Desktop right controls */}
@@ -703,19 +693,21 @@ export default function Navbar() {
           menuOpen ? "max-h-[560px] opacity-100" : "max-h-0 opacity-0"
         }`}>
           <div className="bg-white border-t border-gray-100 px-5 sm:px-6 py-4 sm:py-5 flex flex-col gap-1">
-            {data.links.map((link) => (
-              <Link
-                key={link.id}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-between py-3 px-2 text-base font-medium text-gray-700 hover:text-[#C9A227] border-b border-gray-50 last:border-0 transition-colors group"
-              >
-                {t.links[link.id]}
-                <span className="opacity-0 group-hover:opacity-100 transition-opacity">
-                  <ArrowRight size={13} />
-                </span>
-              </Link>
-            ))}
+{data.links
+  .filter((_, i) => i !== 4 && i !== 5)
+  .map((link) => (
+    <Link
+      key={link.id}
+      href={link.href}
+      onClick={() => setMenuOpen(false)}
+      className="flex items-center justify-between py-3 px-2 text-base font-medium text-gray-700 hover:text-[#C9A227] border-b border-gray-50 last:border-0 transition-colors group"
+    >
+      {t.links[link.id]}
+      <span className="opacity-0 group-hover:opacity-100 transition-opacity">
+        <ArrowRight size={13} />
+      </span>
+    </Link>
+  ))}
             <MobileAuthControls />
           </div>
         </div>

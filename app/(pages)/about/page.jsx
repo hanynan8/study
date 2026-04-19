@@ -112,8 +112,6 @@ function HeroSection({ data, t }) {
       <div className="relative z-10 w-full px-5 pt-16 pb-12 sm:px-8 md:px-6 sm:pt-0 sm:pb-0 md:pt-0 md:pb-0">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-4 sm:mb-5 animate-fadein">
-            <div className="w-6 sm:w-8 h-px bg-[#1D6FD8]" />
-            <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">{t.hero.badge}</span>
           </div>
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter max-w-2xl mb-4 sm:mb-5 animate-fadein-up leading-[1.05]">
             {(() => {
@@ -154,7 +152,6 @@ function WhoWeAre({ data, t }) {
           </div>
         </div>
         <div>
-          <Label text={t.whoWeAre.label} visible={visible} />
           <h2 className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight mb-5 sm:mb-6 transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             {t.whoWeAre.title}
           </h2>
@@ -179,7 +176,6 @@ function MissionVision({ data, t }) {
     <section ref={ref} className="py-16 sm:py-20 md:py-28 bg-[#f7f7f7]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-6">
         <div className={`mb-10 sm:mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <Label text={t.mvLabel} visible={visible} />
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">{t.mvTitle}</h2>
         </div>
         <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
@@ -193,7 +189,20 @@ function MissionVision({ data, t }) {
                 {card.icon}
               </div>
               <h3 className="text-xl sm:text-2xl font-black tracking-tight mb-3" style={{ color: card.color }}>{card.title}</h3>
-              <p className="text-gray-600 text-sm sm:text-[15px] leading-relaxed">{card.body}</p>
+<ul className="flex flex-col gap-1.5 list-none">
+  {card.body.split("\n").slice(0, -1).map((line, i) => (
+    i === 0 ? (
+      <li key={i} className="text-gray-800 text-sm sm:text-[15px] font-black leading-relaxed mb-1">
+        {line}
+      </li>
+    ) : (
+      <li key={i} className="flex items-start gap-2 text-gray-600 text-sm sm:text-[15px] leading-relaxed">
+        <span className="mt-1.5 shrink-0 w-1.5 h-1.5 rounded-full" style={{ background: card.color }} />
+        {line}
+      </li>
+    )
+  ))}
+</ul>
               <div className="absolute -bottom-4 -right-2 text-[90px] sm:text-[120px] font-black leading-none opacity-[0.04] select-none pointer-events-none" style={{ color: card.color }}>
                 {card.title.charAt(0)}
               </div>
@@ -211,7 +220,6 @@ function WhyChooseUs({ data, t }) {
     <section ref={ref} className="py-16 sm:py-20 md:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-6 grid lg:grid-cols-2 gap-10 md:gap-16 lg:gap-20 items-center">
         <div>
-          <Label text={t.why.label} visible={visible} />
           <h2 className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight mb-8 sm:mb-10 transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             {t.why.title}
           </h2>
@@ -221,8 +229,8 @@ function WhyChooseUs({ data, t }) {
                 className={`flex items-start gap-4 py-4 sm:py-5 transition-all duration-500 ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"}`}
                 style={{ transitionDelay: `${150 + i * 80}ms` }}
               >
-                <span className="shrink-0 mt-0.5 w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-[#1D6FD8] flex items-center justify-center">
-                  <Check size={11} />
+                <span className="shrink-0 mt-0.5 w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center">
+                  <Check size={20} />
                 </span>
                 <div>
                   <p className="text-[#0a0a0a] font-bold text-sm sm:text-[15px] leading-snug">{point.title}</p>
@@ -255,7 +263,6 @@ function StatsStrip({ data, t }) {
       <div className="absolute top-0 inset-x-0 h-[3px] bg-[#1D6FD8] z-10" />
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 md:px-6">
         <div className={`mb-10 sm:mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <Label text={t.stats.label} visible={visible} dark />
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">{t.stats.title}</h2>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/8 rounded-2xl overflow-hidden border border-white/8">

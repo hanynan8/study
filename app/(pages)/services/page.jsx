@@ -8,8 +8,13 @@ import { useLanguage } from "@/contexts/LanguageContext";
 function useServicesData() {
   const [data, setData] = useState(null);
   useEffect(() => {
-    fetch("/api/data?collection=services").then((r) => r.json())
-      .then((res) => { const doc = Array.isArray(res) ? res[0] : res; setData(doc); })
+fetch("/api/data?collection=services")
+  .then((r) => r.json())
+  .then((res) => {
+    console.log("API response:", res); // ← شوف الشكل هنا
+    const doc = Array.isArray(res) ? res[0] : res;
+    setData(doc);
+  })
       .catch(console.error);
   }, []);
   return data;
@@ -80,16 +85,12 @@ function HeroSection({ data, t }) {
   return (
     <section className="relative min-h-[52vh] flex items-center overflow-hidden bg-[#f4f4f4]">
       <div className="absolute inset-0 z-0">
-        <Image src={data.hero.backgroundImage} alt="services hero" fill className="object-cover object-center" priority unoptimized />
+        <Image src={data.hero.backgroundImage} alt={t.hero.headline ?? "Services background"} fill className="object-cover object-center" priority unoptimized />
         <div className="absolute inset-0 bg-gradient-to-r from-white via-white/88 to-transparent" />
         <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-white to-transparent" />
       </div>
       <div className="relative z-10 w-full px-5 sm:px-8 md:px-6 pb-12 sm:pb-16 md:pb-20 pt-24 sm:pt-30 md:pt-36">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-4 sm:mb-5 animate-fadein">
-            <div className="w-6 sm:w-8 h-px bg-[#1D6FD8]" />
-            <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">{t.hero.badge}</span>
-          </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[0.92] tracking-tighter max-w-2xl mb-4 sm:mb-5 animate-fadein-up">
             {t.hero.headline.split(",").map((chunk, i, arr) =>
               i === arr.length - 1
@@ -108,8 +109,18 @@ function HeroSection({ data, t }) {
   );
 }
 
+const ID_MAP = {
+  "Study in Spain": "study-spain",
+  "Visa Services": "visa",
+  "language Courses": "language",
+};
+
 function ServicesList({ data, t }) {
-  const merged = data.services.map((svc) => ({ ...svc, ...t.services[svc.id] }));
+  const merged = data.services.map((svc) => {
+    const i18nKey = ID_MAP[svc.id] ?? svc.id;
+    return { ...svc, ...(t.services[i18nKey] ?? {}) };
+  });
+
   return (
     <section className="py-14 sm:py-16 md:py-20 bg-white">
       <div className="max-w-7xl mx-auto flex flex-col gap-0">
@@ -126,7 +137,7 @@ function ServiceRow({ service, index }) {
     <div ref={ref} className="grid lg:grid-cols-2 gap-0 items-stretch border-b border-gray-100 last:border-0">
       {/* Image — always first on mobile */}
       <div className={`relative overflow-hidden min-h-[220px] sm:min-h-[300px] lg:min-h-[460px] order-1 ${isEven ? "lg:order-1" : "lg:order-2"} transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}>
-        <Image src={service.image} alt={service.title} fill className="object-cover hover:scale-105 transition-transform duration-700" unoptimized />
+        <Image src={service.image} alt={service.title ?? "Service image"} fill  className="object-cover hover:scale-105 transition-transform duration-700" unoptimized />
         <div className="absolute top-0 inset-x-0 h-[4px]" style={{ background: service.color }} />
         <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
           <span className="text-white font-black text-base sm:text-xl leading-none">{String(index + 1).padStart(2, "0")}</span>
@@ -135,16 +146,13 @@ function ServiceRow({ service, index }) {
 
       {/* Content */}
       <div className={`flex flex-col justify-center px-5 sm:px-8 md:px-10 py-8 sm:py-12 lg:py-20 order-2 ${isEven ? "lg:order-2 bg-white" : "lg:order-1 bg-[#f7f7f7]"} transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-        <div className="flex items-center gap-2 mb-3 sm:mb-4">
-          <div className="w-4 sm:w-5 h-px" style={{ background: service.color }} />
-          <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase" style={{ color: service.color }}>{service.category}</span>
-        </div>
+
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight mb-3 sm:mb-4">{service.title}</h2>
         <p className="text-gray-500 text-sm sm:text-[15px] leading-relaxed mb-6 sm:mb-8">{service.desc}</p>
         <ul className="flex flex-col gap-2.5 sm:gap-3 mb-8 sm:mb-10">
-          {service.features.map((f, i) => (
+          {(service.features ?? []).map((f, i) => (
             <li key={i} className="flex items-center gap-2.5 sm:gap-3">
-              <span className="shrink-0 w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-[#1D6FD8] flex items-center justify-center"><Check size={10} /></span>
+              <span className="shrink-0 w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center"><Check size={20} /></span>
               <span className="text-[#0a0a0a] text-xs sm:text-sm font-medium">{f}</span>
             </li>
           ))}
@@ -166,12 +174,11 @@ function StatsStrip({ data, t }) {
   return (
     <section ref={ref} className="relative py-16 sm:py-20 md:py-28 overflow-hidden bg-[#0a0a0a]">
       <div className="absolute inset-0 z-0 opacity-10">
-        <Image src={data.stats.backgroundImage} alt="" fill className="object-cover" unoptimized />
+        <Image src={data.stats.backgroundImage} alt="" aria-hidden="true" fill className="object-cover" unoptimized />
       </div>
       <div className="absolute top-0 inset-x-0 h-[3px] bg-[#1D6FD8] z-10" />
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 md:px-6">
         <div className={`mb-10 sm:mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <Label text={t.stats.label} visible={visible} dark />
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">{t.stats.title}</h2>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/8 rounded-2xl overflow-hidden border border-white/8">

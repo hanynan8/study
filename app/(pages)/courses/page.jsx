@@ -52,14 +52,6 @@ function Target({ size = 13 }) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>;
 }
 
-function Label({ text, visible, dark = false }) {
-  return (
-    <div className={`flex items-center gap-2 mb-3 transition-all duration-500 ${visible ? "opacity-100" : "opacity-0"}`}>
-      <div className="w-4 sm:w-5 h-px bg-[#1D6FD8]" />
-      <span className={`text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase ${dark ? "text-gray-400" : "text-[#1D6FD8]"}`}>{text}</span>
-    </div>
-  );
-}
 
 export default function CoursesPage() {
   const { language, isRTL } = useLanguage();
@@ -106,10 +98,6 @@ function HeroSection({ data, t }) {
       </div>
       <div className="relative z-10 w-full px-5 sm:px-8 md:px-6 pb-12 sm:pb-16 md:pb-20 pt-24 sm:pt-30 md:pt-36">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-4 sm:mb-5 animate-fadein">
-            <div className="w-6 sm:w-8 h-px bg-[#1D6FD8]" />
-            <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] uppercase text-[#1D6FD8]">{t.hero.badge}</span>
-          </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter max-w-2xl mb-4 sm:mb-5 animate-fadein-up leading-[1.05]">
             {(() => {
               const words = t.hero.headline.split(" ");
@@ -178,10 +166,6 @@ function CourseRow({ course, index }) {
 
       {/* Content */}
       <div className={`flex flex-col justify-center px-5 sm:px-8 md:px-10 py-8 sm:py-12 lg:py-20 gap-5 sm:gap-6 lg:gap-8 order-2 ${isEven ? "lg:order-2 bg-white" : "lg:order-1 bg-[#f7f7f7]"} transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-        <div className="flex items-center gap-2">
-          <div className="w-4 sm:w-5 h-px" style={{ background: course.color }} />
-          <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase" style={{ color: course.color }}>{course.category}</span>
-        </div>
         <div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight mb-2 sm:mb-3">{course.title}</h2>
           <p className="text-gray-500 text-sm sm:text-[15px] leading-relaxed">{course.desc}</p>
@@ -190,7 +174,7 @@ function CourseRow({ course, index }) {
           <ul className="flex flex-col gap-2 mt-2">
             {course.whoIsThisFor.map((item, i) => (
               <li key={i} className="flex items-start gap-2.5">
-                <span className="shrink-0 mt-0.5 w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-gray-200 flex items-center justify-center bg-white"><Check size={8} color={course.color} /></span>
+                <span className="shrink-0 mt-0.5 w-4 h-4 sm:w-5 sm:h-5 border-gray-200 flex items-center justify-center bg-white"><Check size={18} color={course.color} /></span>
                 <span className="text-gray-600 text-xs sm:text-sm leading-snug">{item}</span>
               </li>
             ))}
@@ -200,22 +184,12 @@ function CourseRow({ course, index }) {
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
             {course.outcomes.map((item, i) => (
               <li key={i} className="flex items-start gap-2.5">
-                <span className="shrink-0 mt-0.5 w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center" style={{ background: course.color + "20" }}><Check size={8} color={course.color} /></span>
+                <span className="shrink-0 mt-0.5 w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center"><Check size={20} color={course.color} /></span>
                 <span className="text-gray-700 text-xs sm:text-sm font-medium leading-snug">{item}</span>
               </li>
             ))}
           </ul>
         </InfoBlock>
-        <div className="rounded-xl border p-3.5 sm:p-4 flex items-start gap-3 sm:gap-4" style={{ borderColor: course.color + "30", background: course.color + "08" }}>
-          <div className="shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center mt-0.5" style={{ background: course.color }}>
-            <Award size={13} color="white" />
-          </div>
-          <div>
-            <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-1" style={{ color: course.color }}>Certification</p>
-            <p className="text-sm font-black text-[#0a0a0a] leading-snug">{course.certification.name}</p>
-            <p className="text-gray-500 text-xs mt-1 leading-snug">{course.certification.desc}</p>
-          </div>
-        </div>
         <div>
           <Link href={course.ctaHref}
             className="inline-flex items-center gap-2 font-bold px-6 sm:px-7 py-3 sm:py-3.5 rounded-lg text-sm text-white transition-all active:scale-95 shadow-sm hover:opacity-90"
@@ -250,7 +224,6 @@ function StatsStrip({ data, t }) {
       <div className="absolute top-0 inset-x-0 h-[3px] bg-[#1D6FD8] z-10" />
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 md:px-6">
         <div className={`mb-10 sm:mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <Label text={t.stats.label} visible={visible} dark />
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">{t.stats.title}</h2>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/8 rounded-2xl overflow-hidden border border-white/8">

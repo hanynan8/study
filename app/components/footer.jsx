@@ -86,23 +86,7 @@ function Newsletter({ t }) {
       <p className="text-gray-400 text-sm mb-3">{t.newsletterDesc}</p>
       {sent ? (
         <p className="text-[#C9A227] text-sm font-bold">{t.newsletterSuccess}</p>
-      ) : (
-        <div className="flex gap-2">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={t.newsletterPlaceholder}
-            className="flex-1 min-w-0 bg-white/5 border border-white/10 rounded-lg px-3 sm:px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#C9A227] transition-colors"
-          />
-          <button
-            onClick={handleSubmit}
-            className="shrink-0 bg-[#C9A227] hover:bg-[#977a1d] active:scale-95 text-white px-3.5 py-2.5 rounded-lg transition-all"
-          >
-            <ArrowRight size={14} />
-          </button>
-        </div>
-      )}
+      ) : null}
     </div>
   );
 }
