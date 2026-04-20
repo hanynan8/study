@@ -1,7 +1,6 @@
 // app/api/data/route.js
 
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs"; // ← أضف الاستيراد ده
 
 const MONGO_URI = process.env.MONGO_URI;
 if (!MONGO_URI) {
@@ -130,12 +129,7 @@ export async function POST(request) {
     const Model = getModelForCollection(colName);
 
     const body = await parseBody(request);
-        if (colName === "auth" && !Array.isArray(body) && body?.password) {
-      const isBcrypt = body.password.startsWith("$2");
-      if (!isBcrypt) {
-        body.password = await bcrypt.hash(body.password, 12);
-      }
-    }
+
     if (Array.isArray(body)) {
       const created = await Model.insertMany(body);
       return jsonResponse(created, 201);

@@ -30,6 +30,11 @@ function useReveal(threshold = 0.1) {
   return [ref, visible];
 }
 
+// ✅ دالة التحقق من صحة الإيميل
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 export default function ContactPage() {
   const data = useContactData();
   const { language: lang } = useLanguage();
@@ -84,34 +89,31 @@ function ContactHero({ data, t }) {
     </section>
   );
 }
+
 function PhoneIcon() {
   return <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#1D6FD8" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z" /></svg>;
 }
+
 function ContactMain({ data, t }) {
   const [ref, visible] = useReveal();
   return (
     <section ref={ref} className="py-16 sm:py-20 md:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-6 grid lg:grid-cols-2 gap-12 md:gap-14 lg:gap-16 items-start">
-        {/* Info cards */}
         <div>
           <h2 className={`text-3xl sm:text-4xl font-black tracking-tight leading-tight mb-8 sm:mb-10 transition-all duration-700 delay-100 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
             {t.info.title}
           </h2>
           <div className="flex flex-col gap-4 sm:gap-5">
-<InfoCard visible={visible} delay={150} icon={<EmailIcon />} label={t.info.emailLabel} value={data.contact.email} href={`mailto:${data.contact.email}`} />
-<InfoCard visible={visible} delay={220} icon={<WhatsAppIcon />} label={t.info.whatsappLabel} value={data.contact.whatsappDisplay}  isExternal accent />
-
-{/* Static phone numbers */}
-<InfoCard visible={visible} delay={290} icon={<PhoneIcon />} label="Qatar" value="+971 47 190 1935" />
-<InfoCard visible={visible} delay={360} icon={<PhoneIcon />} label="Spain" value="+34 612 23 13 93" />
+            <InfoCard visible={visible} delay={150} icon={<EmailIcon />} label={t.info.emailLabel} value={data.contact.email} href={`mailto:${data.contact.email}`} />
+            <InfoCard visible={visible} delay={220} icon={<WhatsAppIcon />} label={t.info.whatsappLabel} value={data.contact.whatsappDisplay} isExternal accent />
+            <InfoCard visible={visible} delay={290} icon={<PhoneIcon />} label="Qatar" value="+971 47 190 1935" />
+            <InfoCard visible={visible} delay={360} icon={<PhoneIcon />} label="Spain" value="+34 612 23 13 93" />
             <div className={`mt-1 p-5 sm:p-6 rounded-2xl bg-[#f7f7f7] border border-gray-100 transition-all duration-500 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
               style={{ transitionDelay: "300ms" }}>
               <p className="text-gray-500 text-sm leading-relaxed">{t.info.note}</p>
             </div>
           </div>
         </div>
-
-        {/* Form */}
         <ConsultationForm data={data} t={t} visible={visible} />
       </div>
     </section>
@@ -141,42 +143,42 @@ function InfoCard({ icon, label, value, href, isExternal, accent, visible, delay
   );
 }
 
-
 function ConsultationForm({ data, t, visible }) {
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
   const [status, setStatus] = useState("idle");
   const [errors, setErrors] = useState({});
 
-  const REQUIRED_LABELS = {
-    en: "Required",
-    ar: "مطلوب",
-    es: "Obligatorio",
-  };
-  const OPTIONAL_LABELS = {
-    en: "Optional",
-    ar: "اختياري",
-    es: "Opcional",
-  };
+  const REQUIRED_LABELS   = { en: "Required",              ar: "مطلوب",                      es: "Obligatorio" };
+  const OPTIONAL_LABELS   = { en: "Optional",              ar: "اختياري",                    es: "Opcional" };
+  const EMAIL_ERROR_LABELS = { en: "Invalid email address", ar: "البريد الإلكتروني غير صحيح", es: "Correo electrónico inválido" };
 
   const lang = data.i18n ? Object.keys(data.i18n).find((l) => t === data.i18n[l]) ?? "en" : "en";
 
   function handleChange(e) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    if (errors[e.target.name]) setErrors((prev) => ({ ...prev, [e.target.name]: false }));
+    if (e.target.name === "email") {
+      // ✅ تحقق فوري من الإيميل أثناء الكتابة
+      setErrors((prev) => ({
+        ...prev,
+        email: e.target.value && !isValidEmail(e.target.value) ? "invalid" : false,
+      }));
+    } else if (errors[e.target.name]) {
+      setErrors((prev) => ({ ...prev, [e.target.name]: false }));
+    }
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
     const newErrors = {
-      name: !form.name,
-      email: !form.email,
+      name:  !form.name,
+      email: !form.email ? "empty" : !isValidEmail(form.email) ? "invalid" : false,
       phone: !form.phone,
     };
     setErrors(newErrors);
     if (Object.values(newErrors).some(Boolean)) return;
     setStatus("sending");
     try {
-      const res = await fetch(data.contact.formEndpoint, {
+      const res = await fetch("/api/data?collection=form", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -185,8 +187,9 @@ function ConsultationForm({ data, t, visible }) {
     } catch { setStatus("error"); }
   }
 
-  const req = REQUIRED_LABELS[lang];
-  const opt = OPTIONAL_LABELS[lang];
+  const req          = REQUIRED_LABELS[lang];
+  const opt          = OPTIONAL_LABELS[lang];
+  const emailErrMsg  = EMAIL_ERROR_LABELS[lang];
 
   return (
     <div className={`transition-all duration-700 delay-200 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
@@ -202,12 +205,12 @@ function ConsultationForm({ data, t, visible }) {
       ) : (
         <div className="flex flex-col gap-3 sm:gap-4">
           <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
-            <Field label={t.form.fields.name} name="name" type="text" value={form.name} onChange={handleChange} badge={req} error={errors.name} />
-            <Field label={t.form.fields.email} name="email" type="email" value={form.email} onChange={handleChange} badge={req} error={errors.email} />
+            <Field label={t.form.fields.name}  name="name"  type="text"  value={form.name}  onChange={handleChange} badge={req} error={errors.name}  errorMsg={req} />
+            <Field label={t.form.fields.email} name="email" type="email" value={form.email} onChange={handleChange} badge={req} error={errors.email}
+              errorMsg={errors.email === "invalid" ? emailErrMsg : req} />
           </div>
-          <Field label={t.form.fields.phone} name="phone" type="tel" value={form.phone} onChange={handleChange} badge={req} error={errors.phone} />
+          <Field label={t.form.fields.phone} name="phone" type="tel" value={form.phone} onChange={handleChange} badge={req} error={errors.phone} errorMsg={req} />
 
-          {/* Service — اختياري */}
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
               <label className="text-xs font-bold uppercase tracking-widest text-gray-400">{t.form.fields.service}</label>
@@ -220,7 +223,6 @@ function ConsultationForm({ data, t, visible }) {
             </select>
           </div>
 
-          {/* Message — اختياري */}
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
               <label className="text-xs font-bold uppercase tracking-widest text-gray-400">{t.form.fields.message}</label>
@@ -231,21 +233,21 @@ function ConsultationForm({ data, t, visible }) {
           </div>
 
           <button onClick={handleSubmit} disabled={status === "sending"}
-            className="inline-flex items-center justify-center gap-2 bg-[#1D6FD8] text-white font-bold px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base hover:bg-[#a50d24] transition-colors shadow-lg disabled:opacity-60 disabled:cursor-not-allowed mt-1">
+            className="inline-flex items-center justify-center gap-2 bg-[#1D6FD8] text-white font-bold px-7 sm:px-8 py-3.5 sm:py-4 rounded-xl text-sm sm:text-base hover:bg-[#C9A84C] transition-colors shadow-lg disabled:opacity-60 disabled:cursor-not-allowed mt-1">
             {status === "sending" ? (
               <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />{t.form.sending}</>
             ) : (
               <>{t.form.submit}<ArrowRight size={16} /></>
             )}
           </button>
-          {status === "error" && <p className="text-[#1D6FD8] text-sm font-medium">{t.form.errorMsg}</p>}
+          {status === "error" && <p className="text-red-500 text-sm font-medium">{t.form.errorMsg}</p>}
         </div>
       )}
     </div>
   );
 }
 
-function Field({ label, name, type, value, onChange, badge, error }) {
+function Field({ label, name, type, value, onChange, badge, error, errorMsg }) {
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between">
@@ -258,7 +260,8 @@ function Field({ label, name, type, value, onChange, badge, error }) {
       </div>
       <input type={type} name={name} value={value} onChange={onChange}
         className={`w-full bg-[#f7f7f7] border rounded-xl px-4 py-3 text-sm font-medium text-[#0a0a0a] focus:outline-none transition-colors ${error ? "border-red-400 focus:border-red-400" : "border-gray-200 focus:border-[#1D6FD8]"}`} />
-      {error && <span className="text-red-500 text-xs font-medium">{badge}</span>}
+      {/* ✅ رسالة الخطأ تحت الحقل */}
+      {error && <span className="text-red-500 text-xs font-medium">{errorMsg}</span>}
     </div>
   );
 }
