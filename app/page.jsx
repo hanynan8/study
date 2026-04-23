@@ -31,7 +31,12 @@ function useReveal(threshold = 0.1) {
   useEffect(() => {
     if (!ref.current) return;
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
       { threshold }
     );
     obs.observe(ref.current);
@@ -52,13 +57,15 @@ export default function HomePage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin" />
-          <span className="text-xs font-bold tracking-[0.2em] uppercase text-gray-400">Loading</span>
+          <span className="text-xs font-bold tracking-[0.2em] uppercase text-gray-400">
+            Loading
+          </span>
         </div>
       </div>
     );
   }
 
-  const t     = data.i18n[lang];
+  const t = data.i18n[lang];
   const isRTL = lang === "ar";
 
   return (
@@ -69,10 +76,10 @@ export default function HomePage() {
         className="min-h-screen bg-white text-[#0a0a0a] overflow-x-hidden"
         style={{ fontFamily: "'DM Sans', 'Tajawal', sans-serif" }}
       >
-        <Hero     data={data} t={t} />
-        <Why      data={data} t={t} />
+        <Hero data={data} t={t} />
+        <Why data={data} t={t} />
         <Services data={data} t={t} />
-        <Stats    data={data} t={t} />
+        <Stats data={data} t={t} />
       </div>
     </>
   );
@@ -80,51 +87,49 @@ export default function HomePage() {
 
 /* ═══════════════════════════════════════
    HERO
+   FIX 1 — أزلنا whitespace-nowrap من الـ h1
+   FIX 3 — خلينا py و min-h responsive
 ═══════════════════════════════════════ */
 function Hero({ data, t }) {
   return (
-    <section className="relative overflow-hidden bg-[#1E3561]">
-      <div className="w-full flex flex-col md:flex-row md:items-stretch">
+<section className="relative overflow-hidden bg-[#1E3561]">
+  <div className="w-full flex flex-col md:flex-row md:items-stretch">
 
-        {/* LEFT — Text */}
-        <div className="w-full md:w-[35%] flex flex-col justify-center px-6 md:px-10 py-16 md:py-0 min-h-[300px]">
-<h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter mb-4 animate-fadein-up leading-[1.05] whitespace-nowrap">
-  <span style={{
-    paddingTop: "0.2em",
-    paddingBottom: "0.2em",
-    background: "linear-gradient(90deg, rgb(254, 240, 138) 0%, rgb(254, 240, 138) 40%, rgb(250, 204, 21) 100%)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    backgroundClip: "text",
-  }}>
-    {t.hero.headline}
-  </span>
-</h1>
-          <p className="text-gray-400 text-sm sm:text-base leading-relaxed animate-fadein-up2">
-            {t.hero.subheadline}
-          </p>
-        </div>
+    {/* LEFT — Text */}
+    <div className="w-full md:w-[35%] flex flex-col justify-center px-5 sm:px-8 md:px-10 pt-6 sm:py-16 md:py-0 min-h-[220px] md:min-h-[340px]">
+      <h1 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tighter mb-4 animate-fadein-up leading-[1.1]">
+        <span style={{ color: "#ffffff" }}>
+          {t.hero.headline}
+        </span>
+      </h1>
 
-        {/* RIGHT — Image */}
-        <div className="w-full md:w-[65%] flex items-between justify-end py-6 pr-6">
-          <div className="relative w-[90%] aspect-[4/3]">
-            <Image
-              src={data.hero.backgroundImage}
-              alt="hero"
-              fill
-              className="object-cover object-center rounded-xl"
-              priority
-              unoptimized
-            />
-          </div>
-        </div>
+      <p className="text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed animate-fadein-up2 max-w-[280px] sm:max-w-xs md:max-w-none">
+        {t.hero.subheadline}
+      </p>
+    </div>
 
+    {/* RIGHT — Image */}
+    <div className="w-full md:w-[65%] flex items-center justify-center md:justify-end pb-6 sm:py-6 px-4 sm:px-6">
+      <div className="relative w-full md:w-[92%] aspect-[16/9] md:aspect-[4/3]">
+        <Image
+          src={data.hero.backgroundImage}
+          alt="hero"
+          fill
+          className="object-cover object-center rounded-xl"
+          priority
+          unoptimized
+        />
       </div>
-    </section>
+    </div>
+
+  </div>
+</section>
   );
 }
+
 /* ═══════════════════════════════════════
    WHY SECTION
+   FIX 2 — صلحنا w-52 h-52 → w-5 h-5
 ═══════════════════════════════════════ */
 function Why({ data, t }) {
   const [ref, visible] = useReveal();
@@ -132,45 +137,44 @@ function Why({ data, t }) {
   return (
     <section ref={ref} className="py-10 sm:py-20 md:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-5 sm:px-10 md:px-16 grid lg:grid-cols-2 gap-10 md:gap-16 lg:gap-20 items-center">
-
-        {/* Image — full width on mobile, natural on desktop */}
-        <div
-          className={`relative overflow-hidden rounded-2xl aspect-[3/2] sm:aspect-[4/3] w-full transition-all duration-700 ease-out ${
-            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <Image
-            src={data.why.image}
-            alt="Why Edumaster"
-            fill
-            className="object-cover"
-            unoptimized
-          />
-          {/* accent bottom bar */}
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#C9A227]" />
-        </div>
+{/* Image */}
+<div
+  className={`hidden sm:block relative overflow-hidden rounded-2xl aspect-[3/2] sm:aspect-[4/3] w-full transition-all duration-700 ease-out ${
+    visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+  }`}
+>
+  <Image
+    src={data.why.image}
+    alt="Why Edumaster"
+    fill
+    className="object-cover"
+    unoptimized
+  />
+  <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#C9A227]" />
+</div>
 
         {/* Content */}
         <div>
-          <h2
-            className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight mb-5 sm:mb-10 transition-all duration-700 delay-100 ${
-              visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
-          >
-            {t.why.title}
-          </h2>
+<h2 className={`text-xl sm:text-2xl md:text-3xl font-black tracking-tight leading-tight mb-2 sm:mb-5 transition-all duration-700 delay-100 ${
+  visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+}`}>
+  {t.why.title}
+</h2>
 
           <ul className="flex flex-col divide-y divide-gray-100">
             {t.why.points.map((point, i) => (
               <li
                 key={i}
-                className={`flex items-center gap-4 py-3.5 sm:py-4 transition-all duration-500 ${
-                  visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"
+                className={`flex items-start gap-3 py-3.5 sm:py-4 transition-all duration-500 ${
+                  visible
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 translate-x-6"
                 }`}
                 style={{ transitionDelay: `${150 + i * 70}ms` }}
               >
-                <span className="shrink-0 w-52 h-52 sm:w-7 sm:h-7 flex items-center justify-center">
-                  <Check size={20} color="#C9A227" />
+                {/* FIX 2: كان w-52 h-52 (208px!) → صح w-5 h-5 */}
+                <span className="shrink-0 w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center mt-0.5">
+                  <Check size={18} color="#C9A227" />
                 </span>
                 <span className="text-gray-700 font-medium text-sm sm:text-[15px] leading-snug">
                   {point}
@@ -186,6 +190,7 @@ function Why({ data, t }) {
 
 /* ═══════════════════════════════════════
    SERVICES
+   FIX 5 — صلحنا ترتيب header row على موبايل
 ═══════════════════════════════════════ */
 function Services({ data, t }) {
   const [ref, visible] = useReveal();
@@ -199,28 +204,28 @@ function Services({ data, t }) {
     <section ref={ref} className="py-10 sm:py-20 md:py-28 bg-[#f7f7f7]">
       <div className="px-5 sm:px-10 md:px-16">
 
-        {/* Header row — stack on mobile */}
+        {/* FIX 5: flex-col على موبايل, flex-row على sm+ — ده هو الترتيب الصح */}
         <div
           className={`flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-7 sm:mb-14 transition-all duration-700 ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
           <div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight leading-tight">
               {t.services.title}
             </h2>
           </div>
           <Link
             href={data.services.ctaHref}
-            className="inline-flex items-center gap-2 border-2 border-[#0a0a0a] text-[#0a0a0a] font-bold px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm hover:bg-[#0a0a0a] hover:text-white transition-all shrink-0 self-start sm:self-auto"
+            className="inline-flex items-center gap-2 border-2 border-[#0a0a0a] text-[#0a0a0a] font-bold px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm hover:bg-[#0a0a0a] hover:text-white transition-all shrink-0 self-start sm:self-auto w-fit"
           >
             {t.services.cta}
             <ArrowRight size={13} />
           </Link>
         </div>
 
-        {/* Cards grid — 1 col mobile, 2 col tablet, 3 col desktop */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        {/* Cards grid */}
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {merged.map((s, i) => (
             <ServiceCard key={s.id} service={s} visible={visible} delay={i * 70} />
           ))}
@@ -233,7 +238,7 @@ function Services({ data, t }) {
 function ServiceCard({ service, visible, delay }) {
   return (
     <Link
-      href={'/services/'}
+      href={"/services/"}
       className={`group flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-[#C9A227]/30 hover:shadow-xl hover:shadow-amber-900/5 transition-all duration-300 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
@@ -248,7 +253,6 @@ function ServiceCard({ service, visible, delay }) {
           className="object-cover group-hover:scale-105 transition-transform duration-500"
           unoptimized
         />
-        {/* Color accent top bar */}
         <div
           className="absolute top-0 inset-x-0 h-[3px]"
           style={{ background: service.color }}
@@ -256,7 +260,7 @@ function ServiceCard({ service, visible, delay }) {
       </div>
 
       {/* Body */}
-      <div className="p-5 sm:p-6 flex flex-col gap-2.5 sm:gap-3 flex-1">
+      <div className="p-4 sm:p-6 flex flex-col gap-2.5 sm:gap-3 flex-1">
         <h3 className="font-black text-[#0a0a0a] text-sm sm:text-base leading-snug group-hover:text-[#C9A227] transition-colors duration-150">
           {service.title}
         </h3>
@@ -273,6 +277,7 @@ function ServiceCard({ service, visible, delay }) {
 
 /* ═══════════════════════════════════════
    STATS
+   FIX 4 — صلحنا bg-white/8 → bg-white/[0.08]
 ═══════════════════════════════════════ */
 function Stats({ data, t }) {
   const [ref, visible] = useReveal();
@@ -283,7 +288,11 @@ function Stats({ data, t }) {
   }));
 
   return (
-    <section ref={ref} className="relative py-10 sm:py-20 md:py-28 overflow-hidden bg-[#0a0a0a]">      {/* Background image */}
+    <section
+      ref={ref}
+      className="relative py-10 sm:py-20 md:py-28 overflow-hidden bg-[#0a0a0a]"
+    >
+      {/* Background image */}
       <div className="absolute inset-0 z-0 opacity-15">
         <Image
           src={data.stats.backgroundImage}
@@ -302,13 +311,13 @@ function Stats({ data, t }) {
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">
-            {t.stats.title}
-          </h2>
+<h2 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white leading-tight">
+  {t.stats.title}
+</h2>
         </div>
 
-        {/* Stats grid — 2 cols on mobile, 4 on desktop */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/8 rounded-2xl overflow-hidden border border-white/8">
+        {/* FIX 4: bg-white/8 → bg-white/[0.08] و border-white/8 → border-white/[0.08] */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.08] rounded-2xl overflow-hidden border border-white/[0.08]">
           {merged.map((s, i) => (
             <div
               key={i}
@@ -317,13 +326,13 @@ function Stats({ data, t }) {
               }`}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <span className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tighter leading-none">
+              <span className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tighter leading-none">
                 {s.value}
               </span>
-              <span className="text-gray-400 text-[10px] sm:text-xs font-semibold uppercase tracking-widest mt-1 sm:mt-2">
+              <span className="text-gray-400 text-[9px] xs:text-[10px] sm:text-xs font-semibold uppercase tracking-widest mt-1 sm:mt-2 leading-tight">
                 {s.label}
               </span>
-              <div className="w-5 sm:w-6 h-0.5 bg-[#C9A227] mt-1.5 sm:mt-2" />
+              <div className="w-4 sm:w-6 h-0.5 bg-[#C9A227] mt-1.5 sm:mt-2" />
             </div>
           ))}
         </div>
@@ -359,16 +368,33 @@ function Label({ text, visible, dark = false }) {
 ═══════════════════════════════════════ */
 function ArrowRight({ size = 16, color = "currentColor" }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke={color} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={2.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M5 12h14M12 5l7 7-7 7" />
     </svg>
   );
 }
+
 function Check({ size = 16, color = "currentColor" }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke={color} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={2.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M20 6L9 17l-5-5" />
     </svg>
   );
@@ -393,9 +419,17 @@ const STYLES = `
   .animate-fadein-up   { animation: fadein-up 0.7s ease 0.1s both; }
   .animate-fadein-up2  { animation: fadein-up 0.7s ease 0.25s both; }
 
-  /* Extra small breakpoint (< 480px) for xs: utilities */
-  @media (min-width: 480px) {
-    .xs\\:flex-row { flex-direction: row; }
-    .xs\\:w-auto   { width: auto; }
+  /* xs breakpoint (360px–479px) */
+  @media (min-width: 360px) {
+    .xs\\:text-3xl   { font-size: 1.875rem; line-height: 2.25rem; }
+    .xs\\:flex-row   { flex-direction: row; }
+    .xs\\:w-auto     { width: auto; }
+    .xs\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .xs\\:text-\\[10px\\] { font-size: 10px; }
+    .xs\\:text-3xl   { font-size: 1.875rem; }
   }
+
+  /* منع الـ overflow على أي شاشة */
+  * { box-sizing: border-box; }
+  img { max-width: 100%; }
 `;

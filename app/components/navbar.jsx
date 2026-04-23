@@ -107,7 +107,6 @@ function LangDropdown({ languages }) {
         className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-2 text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-[#0a0a0a] border border-gray-200 rounded-lg hover:border-gray-300 transition-all duration-150"
       >
         <Globe size={13} />
-        <span className="hidden xs:inline">{current.flag}</span>
         <span>{current.code.toUpperCase()}</span>
         <span className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}>
           <ChevronDown size={12} />
@@ -126,7 +125,6 @@ function LangDropdown({ languages }) {
                   : "text-gray-600 hover:bg-gray-50 hover:text-[#0a0a0a] font-medium"
               }`}
             >
-              <span className="text-base">{lang.flag}</span>
               <span>{lang.label}</span>
               {lang.code === language && (
                 <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#C9A227]" />

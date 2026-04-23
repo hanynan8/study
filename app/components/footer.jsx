@@ -120,7 +120,7 @@ export default function Footer() {
             {/* Brand + About + Socials */}
             <div className="sm:col-span-2 lg:col-span-1">
               <Link href="/" className="inline-block text-2xl font-black tracking-tighter text-white mb-4 hover:opacity-80 transition-opacity">
-                {t.brand}<span className="text-[#C9A227]">.</span>
+                {t.brand}
               </Link>
               <p className="text-gray-400 text-sm leading-relaxed mb-5">{t.about}</p>
               <div className="flex flex-wrap gap-2">

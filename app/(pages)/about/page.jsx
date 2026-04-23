@@ -168,10 +168,10 @@ function WhoWeAre({ data, t }) {
 
 function MissionVision({ data, t }) {
   const [ref, visible] = useReveal();
-  const cards = [
-    { key: "mission", icon: <Target />, title: t.mission.title, body: t.mission.body, color: "#1D6FD8" },
-    { key: "vision",  icon: <Eye />,    title: t.vision.title,  body: t.vision.body,  color: "#0a0a0a" },
-  ];
+const cards = [
+  { key: "mission", icon: <Target />, title: t.mission.title, body: t.mission.body, color: "#1D6FD8" },
+  { key: "vision",  icon: <Eye />,    title: t.vision.title,  body: t.vision.body,  color: "#1a56a0" },
+];
   return (
     <section ref={ref} className="py-16 sm:py-20 md:py-28 bg-[#f7f7f7]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-6">
@@ -190,7 +190,7 @@ function MissionVision({ data, t }) {
               </div>
               <h3 className="text-xl sm:text-2xl font-black tracking-tight mb-3" style={{ color: card.color }}>{card.title}</h3>
 <ul className="flex flex-col gap-1.5 list-none">
-  {card.body.split("\n").slice(0, -1).map((line, i) => (
+  {card.body.split("\n").filter(line => line.trim() !== "").map((line, i) => (
     i === 0 ? (
       <li key={i} className="text-gray-800 text-sm sm:text-[15px] font-black leading-relaxed mb-1">
         {line}
