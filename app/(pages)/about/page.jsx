@@ -169,8 +169,8 @@ function WhoWeAre({ data, t }) {
 function MissionVision({ data, t }) {
   const [ref, visible] = useReveal();
 const cards = [
-  { key: "mission", icon: <Target />, title: t.mission.title, body: t.mission.body, color: "#1D6FD8" },
   { key: "vision",  icon: <Eye />,    title: t.vision.title,  body: t.vision.body,  color: "#1a56a0" },
+  { key: "mission", icon: <Target />, title: t.mission.title, body: t.mission.body, color: "#1D6FD8" },
 ];
   return (
     <section ref={ref} className="py-16 sm:py-20 md:py-28 bg-[#f7f7f7]">
