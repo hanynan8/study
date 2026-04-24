@@ -531,7 +531,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [authModal, setAuthModal] = useState(null);
 
-  if (pathname.startsWith("/admin")) return null;
+  if (pathname.startsWith("/edumasteradminllmkgll546540")) return null;
 
   const isLoading = status === "loading";
   const isLoggedIn = status === "authenticated";
