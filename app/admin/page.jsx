@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import {
   Database, Settings, Home, Navigation, Info, BookOpen,
   Globe, Star, FileText, Phone, Map, Users, MessageSquare,
-  Loader, AlertCircle, Inbox, Trash2
+  Loader, AlertCircle, Inbox, Trash2, Lock, Eye, EyeOff, ShieldCheck
 } from 'lucide-react';
 
 import NavbarAdmin from './components/navbar';
@@ -17,6 +17,202 @@ import CountriesAdmin from './components/countries';
 import SuccessStoriesAdmin from './components/success-stories';
 import BlogAdmin from './components/blogs';
 import ContactAdmin from './components/contact';
+
+const ADMIN_PASSWORD = 'edum159951';
+const SESSION_KEY = 'edumaster_admin_auth';
+
+function PasswordGate({ onSuccess }) {
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [shaking, setShaking] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      if (password === ADMIN_PASSWORD) {
+        sessionStorage.setItem(SESSION_KEY, 'true');
+        onSuccess();
+      } else {
+        setError('Incorrect password. Please try again.');
+        setShaking(true);
+        setPassword('');
+        setTimeout(() => setShaking(false), 500);
+      }
+      setLoading(false);
+    }, 600);
+  };
+
+  return (
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #1e3a5f 0%, #2d1b69 50%, #1a1a2e 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontFamily: "'Segoe UI', system-ui, sans-serif",
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* Decorative blobs */}
+      <div style={{
+        position: 'absolute', top: '-80px', left: '-80px',
+        width: '320px', height: '320px', borderRadius: '50%',
+        background: 'rgba(99,102,241,0.15)', filter: 'blur(60px)',
+        pointerEvents: 'none',
+      }} />
+      <div style={{
+        position: 'absolute', bottom: '-60px', right: '-60px',
+        width: '280px', height: '280px', borderRadius: '50%',
+        background: 'rgba(139,92,246,0.12)', filter: 'blur(50px)',
+        pointerEvents: 'none',
+      }} />
+
+      {/* Card */}
+      <div
+        className={shaking ? 'shake' : ''}
+        style={{
+          background: 'rgba(255,255,255,0.07)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255,255,255,0.15)',
+          borderRadius: '24px',
+          padding: '48px 44px',
+          width: '100%',
+          maxWidth: '420px',
+          boxShadow: '0 32px 64px rgba(0,0,0,0.4)',
+          zIndex: 1,
+        }}
+      >
+        {/* Logo / Icon */}
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <div style={{
+            width: '72px', height: '72px', borderRadius: '20px',
+            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            margin: '0 auto 16px',
+            boxShadow: '0 8px 32px rgba(99,102,241,0.4)',
+          }}>
+            <Lock size={32} color="white" />
+          </div>
+          <h1 style={{ color: '#fff', fontSize: '22px', fontWeight: '700', margin: '0 0 6px' }}>
+            Admin Access
+          </h1>
+          <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '14px', margin: 0 }}>
+            Edumaster Control Panel
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          {/* Password field */}
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{
+              display: 'block', color: 'rgba(255,255,255,0.65)',
+              fontSize: '13px', fontWeight: '500', marginBottom: '8px', letterSpacing: '0.05em',
+            }}>
+              PASSWORD
+            </label>
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                placeholder="Enter admin password"
+                autoFocus
+                style={{
+                  width: '100%',
+                  padding: '13px 44px 13px 16px',
+                  borderRadius: '12px',
+                  border: error
+                    ? '1.5px solid rgba(239,68,68,0.7)'
+                    : '1.5px solid rgba(255,255,255,0.15)',
+                  background: 'rgba(255,255,255,0.06)',
+                  color: '#fff',
+                  fontSize: '15px',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                  transition: 'border 0.2s',
+                  letterSpacing: showPassword ? 'normal' : '0.1em',
+                }}
+                onFocus={e => e.target.style.border = '1.5px solid rgba(99,102,241,0.8)'}
+                onBlur={e => e.target.style.border = error
+                  ? '1.5px solid rgba(239,68,68,0.7)'
+                  : '1.5px solid rgba(255,255,255,0.15)'}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute', right: '12px', top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  color: 'rgba(255,255,255,0.4)', padding: '4px',
+                  display: 'flex', alignItems: 'center',
+                }}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Error message */}
+          {error && (
+            <div style={{
+              background: 'rgba(239,68,68,0.12)',
+              border: '1px solid rgba(239,68,68,0.3)',
+              borderRadius: '10px',
+              padding: '10px 14px',
+              marginBottom: '16px',
+              display: 'flex', alignItems: 'center', gap: '8px',
+              color: '#fca5a5', fontSize: '13px',
+            }}>
+              <AlertCircle size={15} />
+              {error}
+            </div>
+          )}
+
+          {/* Submit button */}
+          <button
+            type="submit"
+            disabled={!password || loading}
+            style={{
+              width: '100%',
+              padding: '14px',
+              borderRadius: '12px',
+              border: 'none',
+              background: password && !loading
+                ? 'linear-gradient(135deg, #6366f1, #8b5cf6)'
+                : 'rgba(255,255,255,0.1)',
+              color: password && !loading ? '#fff' : 'rgba(255,255,255,0.3)',
+              fontSize: '15px',
+              fontWeight: '600',
+              cursor: password && !loading ? 'pointer' : 'not-allowed',
+              transition: 'all 0.2s',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              boxShadow: password && !loading ? '0 4px 20px rgba(99,102,241,0.4)' : 'none',
+            }}
+          >
+            {loading
+              ? <><Loader size={17} className="animate-spin" /> Verifying...</>
+              : <><ShieldCheck size={17} /> Enter Dashboard</>
+            }
+          </button>
+        </form>
+      </div>
+
+      <style>{`
+        @keyframes shake {
+          0%,100% { transform: translateX(0); }
+          20%,60% { transform: translateX(-8px); }
+          40%,80% { transform: translateX(8px); }
+        }
+        .shake { animation: shake 0.45s ease; }
+        input::placeholder { color: rgba(255,255,255,0.25) !important; }
+      `}</style>
+    </div>
+  );
+}
 
 function PlaceholderAdmin({ title }) {
   return (
@@ -56,13 +252,11 @@ function UsersAdmin() {
           <span className="text-sm bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">{users.length}</span>
         </h2>
       </div>
-
       {error && (
         <div className="mx-6 mt-4 px-6 py-4 rounded-xl bg-red-500 text-white flex items-center gap-3">
           <AlertCircle size={20} /> {error}
         </div>
       )}
-
       <div className="p-6">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -118,7 +312,6 @@ function FormSubmissionsAdmin() {
 
   return (
     <div className="bg-white rounded-2xl shadow-2xl border-2 border-blue-100">
-      {/* Header */}
       <div className="p-6 border-b-2 border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
         <h2 className="text-2xl font-bold flex items-center gap-3 text-blue-900">
           <Inbox size={28} /> Form Submissions
@@ -126,14 +319,11 @@ function FormSubmissionsAdmin() {
         </h2>
         <p className="text-gray-400 text-sm mt-1">Messages sent via the contact form</p>
       </div>
-
       {error && (
         <div className="mx-6 mt-4 px-6 py-4 rounded-xl bg-red-500 text-white flex items-center gap-3">
           <AlertCircle size={20} /> {error}
         </div>
       )}
-
-      {/* Detail modal */}
       {selected && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={() => setSelected(null)}>
           <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full mx-4 p-8" onClick={e => e.stopPropagation()}>
@@ -159,8 +349,6 @@ function FormSubmissionsAdmin() {
           </div>
         </div>
       )}
-
-      {/* Table */}
       <div className="p-6">
         {submissions.length === 0 ? (
           <div className="text-center py-16 text-gray-400">
@@ -214,7 +402,15 @@ function FormSubmissionsAdmin() {
 }
 
 export default function AdminDashboard() {
+  const [authenticated, setAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState('home');
+
+  // Check if already authenticated in this session
+  useEffect(() => {
+    if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+      setAuthenticated(true);
+    }
+  }, []);
 
   const tabs = [
     { id: 'home',             name: 'Home',             icon: Home,          component: HomeAdmin },
@@ -228,8 +424,12 @@ export default function AdminDashboard() {
     { id: 'blog',             name: 'Blog',             icon: FileText,      component: BlogAdmin },
     { id: 'contact',          name: 'Contact',          icon: Phone,         component: ContactAdmin },
     { id: 'users',            name: 'Users',            icon: Users,         component: UsersAdmin },
-    { id: 'form_submissions', name: 'Form Submissions', icon: Inbox,         component: FormSubmissionsAdmin }, // ✅ جديد
+    { id: 'form_submissions', name: 'Form Submissions', icon: Inbox,         component: FormSubmissionsAdmin },
   ];
+
+  if (!authenticated) {
+    return <PasswordGate onSuccess={() => setAuthenticated(true)} />;
+  }
 
   const ActiveComponent = tabs.find(t => t.id === activeTab)?.component || HomeAdmin;
 
@@ -242,13 +442,22 @@ export default function AdminDashboard() {
               <Database size={30} className="animate-pulse" />
               Edumaster Admin Panel
             </h1>
+            <button
+              onClick={() => {
+                sessionStorage.removeItem(SESSION_KEY);
+                setAuthenticated(false);
+              }}
+              className="flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors px-3 py-1.5 rounded-lg hover:bg-white/10"
+            >
+              <Lock size={15} />
+              Lock
+            </button>
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-xl p-5 sticky top-4 border border-gray-200">
               <h2 className="text-lg font-bold mb-5 pb-3 border-b flex items-center gap-2 text-gray-700">
@@ -281,7 +490,6 @@ export default function AdminDashboard() {
           <div className="lg:col-span-3">
             <ActiveComponent />
           </div>
-
         </div>
       </div>
     </div>
