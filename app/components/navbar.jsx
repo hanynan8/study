@@ -521,7 +521,7 @@ function AuthModal({ mode, onClose, onSwitch }) {
 }
 
 /* ═══════════════════════════════════════
-   NAVBAR COMPONENT
+  NAVBAR COMPONENT
 ═══════════════════════════════════════ */
 export default function Navbar() {
   const pathname = usePathname();
@@ -531,7 +531,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [authModal, setAuthModal] = useState(null);
 
-  if (pathname.startsWith("/edumasteradminllmkgll546540")) return null;
+  if (pathname.startsWith("/admin")) return null;
 
   const isLoading = status === "loading";
   const isLoggedIn = status === "authenticated";
@@ -638,18 +638,18 @@ export default function Navbar() {
         <div className="mx-auto px-5 sm:px-8 md:px-16 h-[60px] sm:h-[68px] flex items-center justify-between gap-4">
 
           {/* Logo */}
-          <Link href="/" className="shrink-0 flex items-center gap-2 hover:opacity-80 transition-opacity">
-            {data.logoHref && (
-              <img
-                src={data.logoHref}
-                alt={t.brand}
-                className="h-8 w-8 sm:h-10 sm:w-10 object-cover rounded-full"
-              />
-            )}
-            <span className="text-xl sm:text-2xl font-black tracking-tighter text-[#C9A227]">
-              {t.brand}
-            </span>
-          </Link>
+<Link href="/" className="shrink-0 flex items-center gap-2 hover:opacity-80 transition-opacity">
+  {data.logoHref && (
+    <img
+      src={data.logoHref}
+      alt={t.brand}
+      className="h-12 w-12 sm:h-14 sm:w-14 md:h-14 md:w-14 object-cover rounded-full ring-2 ring-[#C9A227]/30"
+    />
+  )}
+  <span className="text-xl sm:text-2xl md:text-3xl font-black tracking-tighter text-[#C9A227]">
+    {t.brand}
+  </span>
+</Link>
 
           {/* Desktop nav links */}
           <div className="hidden lg:flex items-center gap-1 flex-1 justify-center">

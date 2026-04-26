@@ -8,6 +8,9 @@ import { useLanguage } from "@/contexts/LanguageContext";
 /* ─────────────────────────────────────────
    FETCH HOOK
 ───────────────────────────────────────── */
+
+
+
 function useHomeData() {
   const [data, setData] = useState(null);
   useEffect(() => {
@@ -89,41 +92,66 @@ export default function HomePage() {
    HERO
    FIX 1 — أزلنا whitespace-nowrap من الـ h1
    FIX 3 — خلينا py و min-h responsive
-═══════════════════════════════════════ */
-function Hero({ data, t }) {
+═══════════════════════════════════════ */function Hero({ data, t }) {
+  const titleRef = useRef(null);
+
+useEffect(() => {
+  const el = titleRef.current;
+  if (!el) return;
+
+  const fit = () => {
+    const parent = el.parentElement;
+    // نقطة بداية أصغر على الموبايل
+    const startSize = window.innerWidth < 768 ? 1.5 : 3.5;
+    el.style.fontSize = startSize + "rem";
+    
+    while (el.scrollWidth > parent.clientWidth) {
+      const current = parseFloat(window.getComputedStyle(el).fontSize);
+      el.style.fontSize = (current - 0.1) + "px";
+    }
+  };
+
+  const observer = new ResizeObserver(fit);
+  observer.observe(el.parentElement);
+  fit();
+  return () => observer.disconnect();
+}, []);
+
   return (
-<section className="relative overflow-hidden bg-[#1E3561]">
-  <div className="w-full flex flex-col md:flex-row md:items-stretch">
+    <section className="relative overflow-hidden bg-[#1E3561]">
+      <div className="w-full flex flex-col md:flex-row md:items-stretch">
 
-    {/* LEFT — Text */}
-    <div className="w-full md:w-[35%] flex flex-col justify-center px-5 sm:px-8 md:px-10 pt-6 sm:py-16 md:py-0 min-h-[220px] md:min-h-[340px]">
-      <h1 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tighter mb-4 animate-fadein-up leading-[1.1]">
-        <span style={{ color: "#ffffff" }}>
-          {t.hero.headline}
-        </span>
-      </h1>
+        {/* LEFT — Text */}
+        <div className="w-full md:w-[35%] flex flex-col justify-center px-5 sm:px-8 md:px-10 pt-6 sm:py-16 md:py-0 min-h-[220px] md:min-h-[340px]">
+          <h1
+            ref={titleRef}
+            className="font-black tracking-tighter mb-4 animate-fadein-up leading-[1.1] whitespace-nowrap"
+            style={{ color: "#ffffff" }}
+          >
+            {t.hero.headline}
+          </h1>
 
-      <p className="text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed animate-fadein-up2 max-w-[280px] sm:max-w-xs md:max-w-none">
-        {t.hero.subheadline}
-      </p>
-    </div>
+          <p className="text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed animate-fadein-up2 max-w-[280px] sm:max-w-xs md:max-w-none">
+            {t.hero.subheadline}
+          </p>
+        </div>
 
-    {/* RIGHT — Image */}
-    <div className="w-full md:w-[65%] flex items-center justify-center md:justify-end pb-6 sm:py-6 px-4 sm:px-6">
-      <div className="relative w-full md:w-[92%] aspect-[16/9] md:aspect-[4/3]">
-        <Image
-          src={data.hero.backgroundImage}
-          alt="hero"
-          fill
-          className="object-cover object-center rounded-xl"
-          priority
-          unoptimized
-        />
+        {/* RIGHT — Image */}
+        <div className="w-full md:w-[65%] flex items-center justify-center md:justify-end pb-6 sm:py-6 px-4 sm:px-6">
+          <div className="relative w-full md:w-[92%] aspect-[16/9] md:aspect-[4/3]">
+            <Image
+              src={data.hero.backgroundImage}
+              alt="hero"
+              fill
+              className="object-cover object-center rounded-xl"
+              priority
+              unoptimized
+            />
+          </div>
+        </div>
+
       </div>
-    </div>
-
-  </div>
-</section>
+    </section>
   );
 }
 

@@ -49,6 +49,7 @@ const authOptions = {
           return {
             id:            user._id?.toString() || user.name,
             name:          user.name,
+            email:         user.email || null,   // ✅ أضفنا الإيميل هنا
             phone:         user.phone          || credentials.phone,
             address:       user.address        || credentials.address,
             paymentMethod: user.paymentMethod  || credentials.paymentMethod || 'cash',
@@ -68,16 +69,16 @@ const authOptions = {
 
   secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET,
 
-  pages: {
-    signIn: '/login',
-    error:  '/login',
-  },
-
+pages: {
+  signIn: '/',
+  error:  '/',
+},
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token.id            = user.id;
         token.name          = user.name;
+        token.email         = user.email;   // ✅ أضفنا الإيميل في الـ JWT
         token.phone         = user.phone;
         token.address       = user.address;
         token.paymentMethod = user.paymentMethod;
@@ -89,18 +90,19 @@ const authOptions = {
       if (token && session.user) {
         session.user.id            = token.id;
         session.user.name          = token.name;
+        session.user.email         = token.email;   // ✅ أضفنا الإيميل في الـ session
         session.user.phone         = token.phone;
         session.user.address       = token.address;
         session.user.paymentMethod = token.paymentMethod;
       }
       return session;
     },
-
-    async redirect({ url, baseUrl }) {
-      if (url.startsWith('/'))                  return `${baseUrl}${url}`;
-      else if (new URL(url).origin === baseUrl) return url;
-      return baseUrl;
-    },
+    
+async redirect({ url, baseUrl }) {
+  if (url.startsWith('/')) return `${baseUrl}${url}`;
+  if (url.startsWith(baseUrl)) return url;
+  return baseUrl;
+},
   },
 
   debug: process.env.NODE_ENV === 'development',
