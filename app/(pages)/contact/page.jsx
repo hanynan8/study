@@ -192,7 +192,7 @@ function ConsultationForm({ data, t, visible }) {
   const emailErrMsg  = EMAIL_ERROR_LABELS[lang];
 
   return (
-    <div className={`transition-all duration-700 delay-200 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+    <div id="form" className={`transition-all duration-700 delay-200 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight mb-6 sm:mb-8">{t.form.title}</h2>
       {status === "sent" ? (
         <div className="p-8 sm:p-10 rounded-2xl bg-[#1D6FD8]/5 border border-[#1D6FD8]/20 flex flex-col items-center text-center gap-4">
