@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import * as XLSX from 'xlsx';
 import {
   Database, Settings, Home, Navigation, Info, BookOpen,
   Globe, Star, FileText, Phone, Map, Users, MessageSquare,
@@ -141,6 +142,23 @@ function FormSubmissionsAdmin() {
       .catch(() => { setError('Error fetching submissions'); setLoading(false); });
   }, []);
 
+  const exportToExcel = () => {
+    const data = submissions.map((sub, idx) => ({
+      '#': idx + 1,
+      'Name': sub.name || '',
+      'Email': sub.email || '',
+      'Phone': sub.phone || '',
+      'Service': sub.service || '',
+      'Message': sub.message || '',
+      'ID': sub._id || '',
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Submissions');
+    XLSX.writeFile(workbook, `form-submissions-${new Date().toISOString().slice(0, 10)}.xlsx`);
+  };
+
   if (loading) return (
     <div className="bg-white rounded-2xl shadow-2xl p-12 text-center">
       <Loader className="animate-spin mx-auto text-blue-500" size={48} />
@@ -150,12 +168,21 @@ function FormSubmissionsAdmin() {
 
   return (
     <div className="bg-white rounded-2xl shadow-2xl border-2 border-blue-100">
-      <div className="p-6 border-b-2 border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
-        <h2 className="text-2xl font-bold flex items-center gap-3 text-blue-900">
-          <Inbox size={28} /> Form Submissions
-          <span className="text-sm bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">{submissions.length}</span>
-        </h2>
-        <p className="text-gray-400 text-sm mt-1">Messages sent via the contact form</p>
+      <div className="p-6 border-b-2 border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50 flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <h2 className="text-2xl font-bold flex items-center gap-3 text-blue-900">
+            <Inbox size={28} /> Form Submissions
+            <span className="text-sm bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">{submissions.length}</span>
+          </h2>
+          <p className="text-gray-400 text-sm mt-1">Messages sent via the contact form</p>
+        </div>
+        <button
+          onClick={exportToExcel}
+          disabled={submissions.length === 0}
+          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold px-4 py-2 rounded-xl transition-colors shadow"
+        >
+          <FileText size={18} /> Export Excel
+        </button>
       </div>
       {error && (
         <div className="mx-6 mt-4 px-6 py-4 rounded-xl bg-red-500 text-white flex items-center gap-3">
@@ -242,6 +269,7 @@ function FormSubmissionsAdmin() {
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
   const [activeTab, setActiveTab] = useState('home');
+  const [exporting, setExporting] = useState(false);
 
   // لسه بيجيب بيانات السيشن من NextAuth
   if (status === 'loading') {
@@ -281,15 +309,57 @@ export default function AdminDashboard() {
 
   const ActiveComponent = tabs.find(t => t.id === activeTab)?.component || HomeAdmin;
 
+  // تحميل كل بيانات الموقع كـ JSON من /api/data
+  const handleExportAllData = async () => {
+    setExporting(true);
+
+    const collections = [
+      'home', 'navbar', 'footer', 'about', 'services', 'courses',
+      'countries', 'success_stories', 'blog', 'contact', 'auth', 'form'
+    ];
+
+    const result = {};
+
+    await Promise.all(collections.map(async (col) => {
+      try {
+        const res = await fetch(`/api/data?collection=${col}`);
+        const json = await res.json();
+        result[col] = json;
+      } catch (err) {
+        result[col] = { error: 'Failed to fetch' };
+      }
+    }));
+
+    const blob = new Blob([JSON.stringify(result, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `site-data-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    setExporting(false);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50" dir="ltr">
       <div className="shadow-lg bg-gradient-to-r from-blue-700 to-purple-700 border-b-4 border-blue-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-5">
+          <div className="flex justify-between items-center py-5 flex-wrap gap-4">
             <h1 className="text-2xl font-bold text-white flex items-center gap-3">
               <Database size={30} className="animate-pulse" />
               Edumaster Admin Panel
             </h1>
+            <button
+              onClick={handleExportAllData}
+              disabled={exporting}
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 disabled:opacity-60 text-white font-semibold px-4 py-2 rounded-xl transition-colors border border-white/30"
+            >
+              {exporting ? <Loader size={18} className="animate-spin" /> : <Database size={18} />}
+              {exporting ? 'Exporting...' : 'Export All Site Data (JSON)'}
+            </button>
           </div>
         </div>
       </div>
