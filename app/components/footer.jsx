@@ -148,6 +148,15 @@ export default function Footer() {
                     </Link>
                   </li>
                 ))}
+                <li>
+                  <Link href="/privacy"
+                    className="flex items-center gap-2 text-sm font-bold text-[#C9A227] hover:text-white group transition-colors duration-150">
+                    <span className="w-3 overflow-hidden transition-all duration-200">
+                      <ArrowRight size={11} />
+                    </span>
+                    {language === "ar" ? "سياسة الخصوصية والشروط" : language === "es" ? "Política de Privacidad y Términos" : "Privacy Policy & Terms"}
+                  </Link>
+                </li>
               </ul>
             </div>
 
