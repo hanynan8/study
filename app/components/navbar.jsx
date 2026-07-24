@@ -235,8 +235,8 @@ const AUTH_I18N = {
     login: {
       title: "Welcome back",
       subtitle: "Sign in to continue",
-      identifier: "Name",
-      identifierPlaceholder: "Enter your name",
+      identifier: "Name or Email",
+      identifierPlaceholder: "Enter your name or email",
       password: "Password",
       submit: "Sign in",
       switchText: "Don't have an account?",
