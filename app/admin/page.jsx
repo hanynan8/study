@@ -22,7 +22,7 @@ import SuccessStoriesAdmin from './components/success-stories';
 import BlogAdmin from './components/blogs';
 import ContactAdmin from './components/contact';
 
-const ADMIN_EMAIL = 'admin@gmail.com';
+const ADMIN_EMAIL = 'admin1@gmail.com';
 
 // الإيميل اللي هيبعت منه الرد (الحساب اللي هيفتح جيميل بيه)
 const SENDER_EMAIL = 'info@edumaster365.com';
